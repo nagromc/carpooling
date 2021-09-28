@@ -28,6 +28,7 @@ Feature: Carpooling
 
   Scenario: A passenger doesn't owe a trip if not sharing a trip
     Given "Alice" drove 1 time with "Bob"
+    And "Alice" drove 0 time with "Charlie"
     When "Alice" drives with "Charlie"
     Then "Bob" should owe 1 trip to "Alice"
 

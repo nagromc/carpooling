@@ -4,15 +4,15 @@ import java.util.*;
 
 public class InMemoryTripRepository implements TripRepository {
 
-  private final Map<String, List<Set<String>>> trips;
+  private final Map<Carpooler, List<Set<Carpooler>>> trips;
 
   public InMemoryTripRepository() {
     this.trips = new HashMap<>();
   }
 
   @Override
-  public void add(String driver, Set<String> passengers) {
-    List<Set<String>> tripsDoneByDriver = trips.get(driver);
+  public void add(Carpooler driver, Set<Carpooler> passengers) {
+    List<Set<Carpooler>> tripsDoneByDriver = trips.get(driver);
     if (tripsDoneByDriver == null) tripsDoneByDriver = new ArrayList<>();
 
     tripsDoneByDriver.add(passengers);
@@ -20,8 +20,8 @@ public class InMemoryTripRepository implements TripRepository {
   }
 
   @Override
-  public List<Set<String>> findTripsByDriver(String driver) {
-    List<Set<String>> trips = this.trips.get(driver);
+  public List<Set<Carpooler>> findTripsByDriver(Carpooler driver) {
+    List<Set<Carpooler>> trips = this.trips.get(driver);
     return trips == null ? new ArrayList<>() : trips;
   }
 

@@ -10,7 +10,7 @@ public class CarPoolUseCase {
     this.tripRepository = tripRepository;
   }
 
-  public void execute(String driver, Set<String> passengers) {
+  public void execute(Carpooler driver, Set<Carpooler> passengers) {
     if (passengers == null || passengers.isEmpty())
       return;
 
