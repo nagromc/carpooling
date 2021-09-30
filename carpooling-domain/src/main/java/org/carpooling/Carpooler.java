@@ -12,4 +12,9 @@ public class Carpooler {
     return name;
   }
 
+  @Override
+  public String toString() {
+    return name;
+  }
+
 }

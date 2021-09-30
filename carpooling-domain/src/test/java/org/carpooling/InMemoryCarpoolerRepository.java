@@ -24,4 +24,9 @@ public class InMemoryCarpoolerRepository implements CarpoolerRepository {
       .orElse(null); // null
   }
 
+  @Override
+  public Set<Carpooler> findAll() {
+    return carpoolers;
+  }
+
 }

@@ -4,6 +4,7 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java8.En;
 
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -16,12 +17,13 @@ public class CarpoolingStepdefs implements En {
   private final TripRepository tripRepository;
   private final CarPoolUseCase carPoolUseCase;
   private final CountOwedTripsUseCase countOwedTripsUseCase;
+  private Map<CarpoolerTuple, Long> totalOwedTrips;
 
   public CarpoolingStepdefs() {
     carpoolerRepository = new InMemoryCarpoolerRepository();
     tripRepository = new InMemoryTripRepository();
     carPoolUseCase = new CarPoolUseCase(tripRepository);
-    countOwedTripsUseCase = new CountOwedTripsUseCase(tripRepository);
+    countOwedTripsUseCase = new CountOwedTripsUseCase(tripRepository, carpoolerRepository);
 
     Given("{string} drove {int} time(s) with {string}", (String driverName, Integer initialNumberOfTrips, String passengerName) -> {
       Carpooler driver = findCarpoolerOrCreate(driverName);
@@ -35,6 +37,7 @@ public class CarpoolingStepdefs implements En {
       Carpooler driver = carpoolerRepository.findByName(driverName);
 
       carPoolUseCase.execute(driver, Collections.emptySet());
+      totalOwedTrips = countOwedTripsUseCase.execute();
     });
 
     When("{string} drives with:", (String driverName, DataTable passengersNamesDataTable) -> {
@@ -44,14 +47,15 @@ public class CarpoolingStepdefs implements En {
         .collect(Collectors.toSet());
 
       carPoolUseCase.execute(driver, passengers);
+      totalOwedTrips = countOwedTripsUseCase.execute();
     });
 
     Then("{string} should owe {int} trip(s) to {string}", (String debtorName, Integer expectedOwedTrips, String creditorName) -> {
       Carpooler debtor = carpoolerRepository.findByName(debtorName);
       Carpooler creditor = carpoolerRepository.findByName(creditorName);
 
-      long actualOwedTrips = countOwedTripsUseCase.execute(debtor, creditor);
-      assertEquals(expectedOwedTrips.longValue(), actualOwedTrips);
+      Long actualOwedTrips = totalOwedTrips.get(new CarpoolerTuple(debtor, creditor));
+      assertEquals(expectedOwedTrips.longValue(), actualOwedTrips.longValue());
     });
 
   }

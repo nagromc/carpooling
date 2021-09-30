@@ -1,8 +1,11 @@
 package org.carpooling;
 
+import java.util.Set;
+
 public interface CarpoolerRepository {
 
-  Carpooler findByName(String name);
   void add(Carpooler carpooler);
+  Carpooler findByName(String name);
+  Set<Carpooler> findAll();
 
 }
