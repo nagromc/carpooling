@@ -3,18 +3,21 @@ Feature: Carpooling
 
   Scenario: A driver driving alone does not owe a trip
     Given "Alice" drove 1 time with "Bob"
-    When "Alice" drives with "nobody"
+    When "Alice" drives alone
     Then "Bob" should owe 1 trip to "Alice"
 
   Scenario: A passenger who shares a ride owes a trip to the driver
     Given "Bob" drove 1 time with "Alice"
-    When "Bob" drives with "Alice"
+    When "Bob" drives with:
+      | Alice |
     Then "Alice" should owe 2 trips to "Bob"
 
   Scenario: A former passenger who rides back with a former driver doesn't change the number of owed trips
     Given "Alice" drove 1 time with "Bob"
-    When "Alice" drives with "Bob"
-    And "Bob" drives with "Alice"
+    When "Alice" drives with:
+      | Bob |
+    And "Bob" drives with:
+      | Alice |
     Then "Bob" should owe 1 trip to "Alice"
 
   Scenario: Two passengers who share a ride owes a trip each to the driver
@@ -29,7 +32,8 @@ Feature: Carpooling
   Scenario: A passenger doesn't owe a trip if not sharing a trip
     Given "Alice" drove 1 time with "Bob"
     And "Alice" drove 0 time with "Charlie"
-    When "Alice" drives with "Charlie"
+    When "Alice" drives with:
+      | Charlie |
     Then "Bob" should owe 1 trip to "Alice"
 
   Scenario: Three persons who drives together successively doesn't change the number of owed trips

@@ -4,7 +4,6 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java8.En;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -32,15 +31,12 @@ public class CarpoolingStepdefs implements En {
         .forEach(i -> tripRepository.add(driver, Set.of(passenger)));
     });
 
-    // TODO merge whens
-    When("{string} drives with {string}", (String driverName, String passengerName) -> {
+    When("{string} drives alone", (String driverName) -> {
       Carpooler driver = carpoolerRepository.findByName(driverName);
-      Set<Carpooler> passengers = getPassenger(passengerName);
 
-      carPoolUseCase.execute(driver, passengers);
+      carPoolUseCase.execute(driver, Collections.emptySet());
     });
 
-    // TODO merge whens
     When("{string} drives with:", (String driverName, DataTable passengersNamesDataTable) -> {
       Carpooler driver = carpoolerRepository.findByName(driverName);
       Set<Carpooler> passengers = passengersNamesDataTable.asList().stream()
@@ -58,15 +54,6 @@ public class CarpoolingStepdefs implements En {
       assertEquals(expectedOwedTrips.longValue(), actualOwedTrips);
     });
 
-  }
-
-  private Set<Carpooler> getPassenger(String passengerName) {
-    Carpooler passenger = carpoolerRepository.findByName(passengerName);
-
-    if (passengerName.equals("nobody"))
-      return Collections.emptySet();
-
-    return Set.of(passenger);
   }
 
   private Carpooler findCarpoolerOrCreate(String carpoolerName) {
