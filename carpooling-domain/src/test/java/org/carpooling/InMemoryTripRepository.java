@@ -12,17 +12,13 @@ public class InMemoryTripRepository implements TripRepository {
 
   @Override
   public void add(Carpooler driver, Set<Carpooler> passengers) {
-    List<Set<Carpooler>> tripsDoneByDriver = trips.get(driver);
-    if (tripsDoneByDriver == null) tripsDoneByDriver = new ArrayList<>();
-
-    tripsDoneByDriver.add(passengers);
-    trips.put(driver, tripsDoneByDriver);
+    trips.putIfAbsent(driver, new ArrayList<>());
+    trips.get(driver).add(passengers);
   }
 
   @Override
   public List<Set<Carpooler>> findTripsByDriver(Carpooler driver) {
-    List<Set<Carpooler>> trips = this.trips.get(driver);
-    return trips == null ? new ArrayList<>() : trips;
+    return trips.getOrDefault(driver, new ArrayList<>());
   }
 
 }
