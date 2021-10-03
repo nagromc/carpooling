@@ -42,4 +42,12 @@
     </dependencies>
   </dependencyManagement>
 
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages Apache Maven</name>
+      <url>https://maven.pkg.github.com/nagromc/carpooling</url>
+    </repository>
+  </distributionManagement>
+
 </project>
