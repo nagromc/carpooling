@@ -13,17 +13,19 @@ import static org.junit.Assert.assertEquals;
 
 public class CarpoolingStepdefs implements En {
 
-  private final CarpoolerRepository carpoolerRepository;
-  private final TripRepository tripRepository;
-  private final CarPoolUseCase carPoolUseCase;
-  private final CountOwedTripsUseCase countOwedTripsUseCase;
+  private CarpoolerRepository carpoolerRepository;
+  private TripRepository tripRepository;
+  private CarPoolUseCase carPoolUseCase;
+  private CountOwedTripsUseCase countOwedTripsUseCase;
   private Map<CarpoolerTuple, Long> totalOwedTrips;
 
   public CarpoolingStepdefs() {
-    carpoolerRepository = new InMemoryCarpoolerRepository();
-    tripRepository = new InMemoryTripRepository();
-    carPoolUseCase = new CarPoolUseCase(tripRepository);
-    countOwedTripsUseCase = new CountOwedTripsUseCase(tripRepository, carpoolerRepository);
+    Before(() -> {
+      carpoolerRepository = new InMemoryCarpoolerRepository();
+      tripRepository = new InMemoryTripRepository();
+      carPoolUseCase = new CarPoolUseCase(tripRepository);
+      countOwedTripsUseCase = new CountOwedTripsUseCase(tripRepository, carpoolerRepository);
+    });
 
     Given("{string} drove {int} time(s) with {string}", (String driverName, Integer initialNumberOfTrips, String passengerName) -> {
       Carpooler driver = findCarpoolerOrCreate(driverName);
