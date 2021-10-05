@@ -4,6 +4,7 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java8.En;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -52,14 +53,19 @@ public class CarpoolingStepdefs implements En {
       totalOwedTrips = countOwedTripsUseCase.execute();
     });
 
-    Then("{string} should owe {int} trip(s) to {string}", (String debtorName, Integer expectedOwedTrips, String creditorName) -> {
-      Carpooler debtor = carpoolerRepository.findByName(debtorName);
-      Carpooler creditor = carpoolerRepository.findByName(creditorName);
-
-      Long actualOwedTrips = totalOwedTrips.get(new CarpoolerTuple(debtor, creditor));
-      assertEquals(expectedOwedTrips.longValue(), actualOwedTrips.longValue());
+    Then("the owed trips should be:", (DataTable expectedOwedTrips) -> {
+      List<Debt> debts = expectedOwedTrips.asList(Debt.class);
+      debts.forEach(debt -> {
+        Long actualOwedTrips = totalOwedTrips.get(new CarpoolerTuple(debt.debtor(), debt.creditor()));
+        assertEquals(debt.numberOfOwedTrips().longValue(), actualOwedTrips.longValue());
+      });
     });
 
+    DataTableType((Map<String, String> row) -> new Debt(
+      carpoolerRepository.findByName(row.get("debtor")),
+      Long.parseLong(row.get("nbOfOwedTrips")),
+      carpoolerRepository.findByName(row.get("creditor"))
+    ));
   }
 
   private Carpooler findCarpoolerOrCreate(String carpoolerName) {
@@ -70,5 +76,7 @@ public class CarpoolingStepdefs implements En {
     }
     return carpooler;
   }
+
+  public static record Debt(Carpooler debtor, Long numberOfOwedTrips, Carpooler creditor) {}
 
 }
