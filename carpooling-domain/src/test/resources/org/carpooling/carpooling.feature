@@ -2,14 +2,18 @@ Feature: Carpooling
   Several people should be able to share a ride.
 
   Scenario: A driver driving alone does not owe a trip
-    Given "Alice" drove 1 time with "Bob"
+    Given the following trips:
+      | driver | nbOfTrips | passenger |
+      | Alice  | 1         | Bob       |
     When "Alice" drives alone
     Then the owed trips should be:
       | debtor | nbOfOwedTrips | creditor |
       | Bob    | 1             | Alice    |
 
   Scenario: A passenger who shares a ride owes a trip to the driver
-    Given "Bob" drove 1 time with "Alice"
+    Given the following trips:
+      | driver | nbOfTrips | passenger |
+      | Bob    | 1         | Alice     |
     When "Bob" drives with:
       | Alice |
     Then the owed trips should be:
@@ -17,7 +21,9 @@ Feature: Carpooling
       | Alice  | 2             | Bob      |
 
   Scenario: A former passenger who rides back with a former driver doesn't change the number of owed trips
-    Given "Alice" drove 1 time with "Bob"
+    Given the following trips:
+      | driver | nbOfTrips | passenger |
+      | Alice  | 1         | Bob       |
     When "Alice" drives with:
       | Bob |
     And "Bob" drives with:
@@ -27,8 +33,10 @@ Feature: Carpooling
       | Bob    | 1             | Alice    |
 
   Scenario: Two passengers who share a ride owes a trip each to the driver
-    Given "Alice" drove 1 time with "Bob"
-    And "Alice" drove 2 times with "Charlie"
+    Given the following trips:
+      | driver | nbOfTrips | passenger |
+      | Alice  | 1         | Bob       |
+      | Alice  | 2         | Charlie   |
     When "Alice" drives with:
       | Bob     |
       | Charlie |
@@ -38,8 +46,10 @@ Feature: Carpooling
       | Charlie | 3             | Alice    |
 
   Scenario: A passenger doesn't owe a trip if not sharing a trip
-    Given "Alice" drove 1 time with "Bob"
-    And "Alice" drove 0 time with "Charlie"
+    Given the following trips:
+      | driver | nbOfTrips | passenger |
+      | Alice  | 1         | Bob       |
+      | Alice  | 0         | Charlie   |
     When "Alice" drives with:
       | Charlie |
     Then the owed trips should be:
@@ -47,9 +57,11 @@ Feature: Carpooling
       | Bob    | 1             | Alice    |
 
   Scenario: Three persons who drives together successively doesn't change the number of owed trips
-    Given "Alice" drove 1 time with "Bob"
-    And "Bob" drove 2 times with "Charlie"
-    And "Charlie" drove 3 times with "Alice"
+    Given the following trips:
+      | driver  | nbOfTrips | passenger |
+      | Alice   | 1         | Bob       |
+      | Bob     | 2         | Charlie   |
+      | Charlie | 3         | Alice     |
     When "Alice" drives with:
       | Bob     |
       | Charlie |

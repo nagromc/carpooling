@@ -21,6 +21,7 @@ public class CarpoolingStepdefs implements En {
   private Map<CarpoolerTuple, Long> totalOwedTrips;
 
   public CarpoolingStepdefs() {
+
     Before(() -> {
       carpoolerRepository = new InMemoryCarpoolerRepository();
       tripRepository = new InMemoryTripRepository();
@@ -28,12 +29,13 @@ public class CarpoolingStepdefs implements En {
       countOwedTripsUseCase = new CountOwedTripsUseCase(tripRepository, carpoolerRepository);
     });
 
-    Given("{string} drove {int} time(s) with {string}", (String driverName, Integer initialNumberOfTrips, String passengerName) -> {
-      Carpooler driver = findCarpoolerOrCreate(driverName);
-      Carpooler passenger = findCarpoolerOrCreate(passengerName);
-
-      IntStream.range(0, initialNumberOfTrips)
-        .forEach(i -> tripRepository.add(driver, Set.of(passenger)));
+    Given("the following trips:", (DataTable initialTripsDataTable) -> {
+      List<InitialTrip> initialTrips = initialTripsDataTable.asList(InitialTrip.class);
+      initialTrips.forEach(
+        initialTrip -> IntStream.range(0, initialTrip.nbOfTrips).forEach(
+          i -> tripRepository.add(initialTrip.driver, Set.of(initialTrip.passenger))
+        )
+      );
     });
 
     When("{string} drives alone", (String driverName) -> {
@@ -61,11 +63,18 @@ public class CarpoolingStepdefs implements En {
       });
     });
 
+    DataTableType((Map<String, String> row) -> new InitialTrip(
+      findCarpoolerOrCreate(row.get("driver")),
+      Integer.parseInt(row.get("nbOfTrips")),
+      findCarpoolerOrCreate(row.get("passenger"))
+    ));
+
     DataTableType((Map<String, String> row) -> new Debt(
       carpoolerRepository.findByName(row.get("debtor")),
       Long.parseLong(row.get("nbOfOwedTrips")),
       carpoolerRepository.findByName(row.get("creditor"))
     ));
+
   }
 
   private Carpooler findCarpoolerOrCreate(String carpoolerName) {
@@ -77,6 +86,13 @@ public class CarpoolingStepdefs implements En {
     return carpooler;
   }
 
-  public static record Debt(Carpooler debtor, Long numberOfOwedTrips, Carpooler creditor) {}
+
+  private record InitialTrip(Carpooler driver, Integer nbOfTrips, Carpooler passenger) {
+
+  }
+
+  private record Debt(Carpooler debtor, Long numberOfOwedTrips, Carpooler creditor) {
+
+  }
 
 }
