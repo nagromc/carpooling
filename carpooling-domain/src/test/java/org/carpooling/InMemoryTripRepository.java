@@ -12,8 +12,8 @@ public class InMemoryTripRepository implements TripRepository {
 
   @Override
   public void add(Carpooler driver, Set<Carpooler> passengers) {
-    trips.putIfAbsent(driver, new ArrayList<>());
-    trips.get(driver).add(passengers);
+    trips.computeIfAbsent(driver, carpooler -> new ArrayList<>())
+      .add(passengers);
   }
 
   @Override
