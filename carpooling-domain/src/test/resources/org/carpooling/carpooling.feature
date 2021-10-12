@@ -1,6 +1,15 @@
 Feature: Carpooling
   Several people should be able to share a ride.
 
+  Scenario: One trip is owed
+    Given the following trips:
+      | driver | nbOfTrips | passenger |
+      | Alice  | 1         | Bob       |
+    When the owed trips are counted
+    Then the owed trips should be:
+      | debtor | nbOfOwedTrips | creditor |
+      | Bob    | 1             | Alice    |
+
   Scenario: A driver driving alone does not owe a trip
     Given the following trips:
       | driver | nbOfTrips | passenger |

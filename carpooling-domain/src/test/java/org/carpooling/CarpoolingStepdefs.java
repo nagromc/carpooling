@@ -38,6 +38,10 @@ public class CarpoolingStepdefs implements En {
       );
     });
 
+    When("the owed trips are counted", () ->
+      totalOwedTrips = countOwedTripsUseCase.execute()
+    );
+
     When("{string} drives alone", (String driverName) -> {
       Carpooler driver = carpoolerRepository.findByName(driverName);
 
