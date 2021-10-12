@@ -15,6 +15,7 @@ Feature: Carpooling
       | driver | nbOfTrips | passenger |
       | Alice  | 1         | Bob       |
     When "Alice" drives alone
+    And the owed trips are counted
     Then the owed trips should be:
       | debtor | nbOfOwedTrips | creditor |
       | Bob    | 1             | Alice    |
@@ -25,6 +26,7 @@ Feature: Carpooling
       | Bob    | 1         | Alice     |
     When "Bob" drives with:
       | Alice |
+    And the owed trips are counted
     Then the owed trips should be:
       | debtor | nbOfOwedTrips | creditor |
       | Alice  | 2             | Bob      |
@@ -37,6 +39,7 @@ Feature: Carpooling
       | Bob |
     And "Bob" drives with:
       | Alice |
+    And the owed trips are counted
     Then the owed trips should be:
       | debtor | nbOfOwedTrips | creditor |
       | Bob    | 1             | Alice    |
@@ -49,6 +52,7 @@ Feature: Carpooling
     When "Alice" drives with:
       | Bob     |
       | Charlie |
+    And the owed trips are counted
     Then the owed trips should be:
       | debtor  | nbOfOwedTrips | creditor |
       | Bob     | 2             | Alice    |
@@ -61,6 +65,7 @@ Feature: Carpooling
       | Alice  | 0         | Charlie   |
     When "Alice" drives with:
       | Charlie |
+    And the owed trips are counted
     Then the owed trips should be:
       | debtor | nbOfOwedTrips | creditor |
       | Bob    | 1             | Alice    |
@@ -80,6 +85,7 @@ Feature: Carpooling
     And "Charlie" drives with:
       | Alice |
       | Bob   |
+    And the owed trips are counted
     Then the owed trips should be:
       | debtor  | nbOfOwedTrips | creditor |
       | Bob     | 1             | Alice    |

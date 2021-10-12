@@ -46,7 +46,6 @@ public class CarpoolingStepdefs implements En {
       Carpooler driver = carpoolerRepository.findByName(driverName);
 
       carPoolUseCase.execute(driver, Collections.emptySet());
-      totalOwedTrips = countOwedTripsUseCase.execute();
     });
 
     When("{string} drives with:", (String driverName, DataTable passengersNamesDataTable) -> {
@@ -56,7 +55,6 @@ public class CarpoolingStepdefs implements En {
         .collect(Collectors.toSet());
 
       carPoolUseCase.execute(driver, passengers);
-      totalOwedTrips = countOwedTripsUseCase.execute();
     });
 
     Then("the owed trips should be:", (DataTable expectedOwedTrips) -> {
