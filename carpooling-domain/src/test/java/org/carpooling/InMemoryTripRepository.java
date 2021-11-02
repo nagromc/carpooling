@@ -1,24 +1,25 @@
 package org.carpooling;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class InMemoryTripRepository implements TripRepository {
 
-  private final Map<Carpooler, List<Set<Carpooler>>> trips;
+  private final List<Trip> trips;
 
   public InMemoryTripRepository() {
-    this.trips = new HashMap<>();
+    this.trips = new ArrayList<>();
   }
 
   @Override
   public void add(Carpooler driver, Set<Carpooler> passengers) {
-    trips.computeIfAbsent(driver, carpooler -> new ArrayList<>())
-      .add(passengers);
+    trips.add(new Trip(driver, passengers));
   }
 
   @Override
-  public List<Set<Carpooler>> findTripsByDriver(Carpooler driver) {
-    return trips.getOrDefault(driver, new ArrayList<>());
+  public List<Trip> findAll() {
+    return trips;
   }
 
 }

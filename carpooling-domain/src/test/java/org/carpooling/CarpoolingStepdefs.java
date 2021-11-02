@@ -17,8 +17,8 @@ public class CarpoolingStepdefs implements En {
   private CarpoolerRepository carpoolerRepository;
   private TripRepository tripRepository;
   private CarPoolUseCase carPoolUseCase;
-  private CountOwedTripsUseCase countOwedTripsUseCase;
-  private Map<CarpoolerTuple, Long> totalOwedTrips;
+  private CountCreditsUseCase countCreditsUseCase;
+  private Map<Carpooler, Float> carpoolersCredits;
 
   public CarpoolingStepdefs() {
 
@@ -26,7 +26,7 @@ public class CarpoolingStepdefs implements En {
       carpoolerRepository = new InMemoryCarpoolerRepository();
       tripRepository = new InMemoryTripRepository();
       carPoolUseCase = new CarPoolUseCase(tripRepository);
-      countOwedTripsUseCase = new CountOwedTripsUseCase(tripRepository, carpoolerRepository);
+      countCreditsUseCase = new CountCreditsUseCase(tripRepository);
     });
 
     Given("the following trips:", (DataTable initialTripsDataTable) -> {
@@ -38,8 +38,8 @@ public class CarpoolingStepdefs implements En {
       );
     });
 
-    When("the owed trips are counted", () ->
-      totalOwedTrips = countOwedTripsUseCase.execute()
+    When("the credits are counted", () ->
+      carpoolersCredits = countCreditsUseCase.execute()
     );
 
     When("{string} drives alone", (String driverName) -> {
@@ -57,11 +57,11 @@ public class CarpoolingStepdefs implements En {
       carPoolUseCase.execute(driver, passengers);
     });
 
-    Then("the owed trips should be:", (DataTable expectedOwedTrips) -> {
-      List<Debt> debts = expectedOwedTrips.asList(Debt.class);
-      debts.forEach(debt -> {
-        Long actualOwedTrips = totalOwedTrips.get(new CarpoolerTuple(debt.debtor(), debt.creditor()));
-        assertEquals(debt.numberOfOwedTrips().longValue(), actualOwedTrips.longValue());
+    Then("the credits should be:", (DataTable expectedCreditsDataTable) -> {
+      List<Credit> expectedCredits = expectedCreditsDataTable.asList(Credit.class);
+      expectedCredits.forEach(expectedCredit -> {
+        Float actualCredit = carpoolersCredits.get(expectedCredit.carpooler());
+        assertEquals(expectedCredit.value(), actualCredit, 0.001);
       });
     });
 
@@ -71,10 +71,9 @@ public class CarpoolingStepdefs implements En {
       findCarpoolerOrCreate(row.get("passenger"))
     ));
 
-    DataTableType((Map<String, String> row) -> new Debt(
-      carpoolerRepository.findByName(row.get("debtor")),
-      Long.parseLong(row.get("nbOfOwedTrips")),
-      carpoolerRepository.findByName(row.get("creditor"))
+    DataTableType((Map<String, String> row) -> new Credit(
+      carpoolerRepository.findByName(row.get("carpooler")),
+      Float.parseFloat(row.get("credit"))
     ));
 
   }
@@ -93,7 +92,7 @@ public class CarpoolingStepdefs implements En {
 
   }
 
-  private record Debt(Carpooler debtor, Long numberOfOwedTrips, Carpooler creditor) {
+  private record Credit(Carpooler carpooler, Float value) {
 
   }
 
