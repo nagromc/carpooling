@@ -5,18 +5,19 @@ Feature: Count owed trips
     Given the following trips:
       | driver | nbOfTrips | passenger |
       | Alice  | 1         | Bob       |
-    When the owed trips are counted
-    Then the owed trips should be:
-      | debtor | nbOfOwedTrips | creditor |
-      | Bob    | 1             | Alice    |
+    When the credits are counted
+    Then the credits should be:
+      | carpooler | credit |
+      | Alice     | 0.5    |
+      | Bob       | -0.5   |
 
   Scenario: A returned trip between two carpoolers is cancelled
     Given the following trips:
       | driver | nbOfTrips | passenger |
       | Alice  | 1         | Bob       |
       | Bob    | 1         | Alice     |
-    When the owed trips are counted
-    Then the owed trips should be:
-      | debtor | nbOfOwedTrips | creditor |
-      | Alice  | 0             | Bob      |
-      | Bob    | 0             | Alice    |
+    When the credits are counted
+    Then the credits should be:
+      | carpooler | credit |
+      | Alice     | 0      |
+      | Bob       | 0      |
