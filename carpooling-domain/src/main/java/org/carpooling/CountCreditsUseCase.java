@@ -8,45 +8,57 @@ import java.util.Set;
 public class CountCreditsUseCase {
 
   private final TripRepository tripRepository;
+  private final Map<Carpooler, Float> credits;
 
   public CountCreditsUseCase(TripRepository tripRepository) {
     this.tripRepository = tripRepository;
+    credits = new HashMap<>();
   }
 
   public Map<Carpooler, Float> execute() {
-    Map<Carpooler, Float> result = new HashMap<>();
-
     List<Trip> trips = tripRepository.findAll();
-
-    trips.forEach(
-      trip -> {
-        Carpooler driver = trip.driver();
-        Set<Carpooler> passengers = trip.passengers();
-
-        if (passengers.isEmpty())
-          return;
-
-        Float currentDriverCredit = result.getOrDefault(driver, 0f);
-        result.put(driver, calculateDriverCredit(currentDriverCredit, trip.numberOfCarpoolers()));
-
-        passengers.forEach(
-          passenger -> {
-            Float currentPassengerCredit = result.getOrDefault(passenger, 0f);
-            result.put(passenger, calculatePassengerCredit(currentPassengerCredit, trip.numberOfCarpoolers()));
-          }
-        );
-      }
-    );
-
-    return result;
+    trips.forEach(this::updateCreditsForTrip);
+    return credits;
   }
 
-  private float calculateDriverCredit(Float currentDriverCredit, int numberOfCarpoolers) {
-    return calculatePassengerCredit(currentDriverCredit, numberOfCarpoolers) + 1;
+  private void updateCreditsForTrip(Trip trip) {
+    Carpooler driver = trip.driver();
+    Set<Carpooler> passengers = trip.passengers();
+
+    if (passengers.isEmpty())
+      return;
+
+    updateDriverCredits(trip, driver);
+    passengers.forEach(passenger -> updatePassengerCredits(trip, passenger));
   }
 
-  private float calculatePassengerCredit(Float currentPassengerCredit, int numberOfCarpoolers) {
-    return currentPassengerCredit - 1 / (float) numberOfCarpoolers;
+  private void updateDriverCredits(Trip trip, Carpooler driver) {
+    updateCreditsForCarpooler(driver, calculateDriverCredits(trip, driver));
+  }
+
+  private void updatePassengerCredits(Trip trip, Carpooler passenger) {
+    updateCreditsForCarpooler(passenger, calculatePassengerCredits(trip, passenger));
+  }
+
+  private void updateCreditsForCarpooler(Carpooler driver, float value) {
+    credits.put(driver, value);
+  }
+
+  private float calculateDriverCredits(Trip trip, Carpooler driver) {
+    return calculateCarpoolerCredits(trip, driver) + 1;
+  }
+
+  private float calculatePassengerCredits(Trip trip, Carpooler passenger) {
+    return calculateCarpoolerCredits(trip, passenger);
+  }
+
+  private float calculateCarpoolerCredits(Trip trip, Carpooler carpooler) {
+    Float currentCarpoolerCredits = credits.getOrDefault(carpooler, 0f);
+    return calculateCarpoolerCredits(currentCarpoolerCredits, trip.numberOfCarpoolers());
+  }
+
+  private float calculateCarpoolerCredits(Float currentCarpoolerCredits, int numberOfCarpoolers) {
+    return currentCarpoolerCredits - 1 / (float) numberOfCarpoolers;
   }
 
 }
