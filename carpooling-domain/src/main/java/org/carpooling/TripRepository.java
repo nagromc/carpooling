@@ -6,6 +6,6 @@ import java.util.Set;
 public interface TripRepository {
 
   void add(Carpooler driver, Set<Carpooler> passengers);
-  List<Set<Carpooler>> findTripsByDriver(Carpooler driver);
+  List<Trip> findAll();
 
 }
