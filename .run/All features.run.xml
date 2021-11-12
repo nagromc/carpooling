@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="All features" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
-    <option name="FILE_PATH" value="C:\Users\mcourbet.INTERNE\dev\perso\carpooling\carpooling-domain\src\test\resources\org\carpooling" />
+    <option name="FILE_PATH" value="src\test\resources\org\carpooling" />
     <option name="GLUE" value="org.carpooling" />
     <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
     <module name="carpooling-domain" />
