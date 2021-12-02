@@ -2,7 +2,10 @@ package org.carpooling.database.json;
 
 import org.carpooling.Carpooler;
 import org.carpooling.Trip;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -13,7 +16,8 @@ import java.util.Set;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class JsonFileTripRepositoryTest {
 
@@ -49,19 +53,44 @@ class JsonFileTripRepositoryTest {
   class AddTest {
 
     @Test
-    @Disabled
     void givenTrip_shouldSave() throws FileDatabaseNotFoundException {
       JsonFileTripRepository repository = new JsonFileTripRepository(file);
 
       repository.add(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
 
-      fail("implement me");
+      List<Trip> trips = repository.findAll();
+      assertThat(trips.size(), is(1));
+      assertThat(trips.get(0).driver(), is(ALICE_CARPOOLER));
+      assertThat(trips.get(0).passengers(), is(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
     }
 
   }
 
   @Nested
   class FindAllTest {
+
+    @Nested
+    class WithEmptyDatabaseTest {
+
+      @BeforeEach
+      void setUp() throws IOException {
+        String initialContent = "";
+
+        FileWriter writer = new FileWriter(file);
+        writer.write(initialContent);
+        writer.close();
+      }
+
+      @Test
+      void givenDatabaseIsEmpty_shouldReturnEmptyList() throws FileDatabaseNotFoundException {
+        JsonFileTripRepository repository = new JsonFileTripRepository(file);
+
+        List<Trip> allTrips = repository.findAll();
+
+        assertThat(allTrips.size(), is(0));
+      }
+
+    }
 
     @BeforeEach
     void setUp() throws IOException {
