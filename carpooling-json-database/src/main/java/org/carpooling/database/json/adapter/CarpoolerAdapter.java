@@ -1,0 +1,24 @@
+package org.carpooling.database.json.adapter;
+
+import org.carpooling.Carpooler;
+import org.carpooling.database.json.dto.CarpoolerDto;
+
+public class CarpoolerAdapter {
+
+  private final CarpoolerDto carpoolerDto;
+
+  public CarpoolerAdapter(CarpoolerDto carpoolerDto) {
+    validateArguments(carpoolerDto);
+
+    this.carpoolerDto = carpoolerDto;
+  }
+
+  private void validateArguments(CarpoolerDto carpoolerDto) {
+    if (carpoolerDto == null) throw new IllegalArgumentException();
+  }
+
+  public Carpooler convert() {
+    return new Carpooler(carpoolerDto.name());
+  }
+
+}
