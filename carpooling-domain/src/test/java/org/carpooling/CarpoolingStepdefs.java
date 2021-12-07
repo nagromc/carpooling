@@ -33,7 +33,7 @@ public class CarpoolingStepdefs implements En {
       List<InitialTrip> initialTrips = initialTripsDataTable.asList(InitialTrip.class);
       initialTrips.forEach(
         initialTrip -> IntStream.range(0, initialTrip.nbOfTrips).forEach(
-          i -> tripRepository.add(initialTrip.driver, Set.of(initialTrip.passenger))
+          i -> tripRepository.add(new Trip(initialTrip.driver, Set.of(initialTrip.passenger)))
         )
       );
     });

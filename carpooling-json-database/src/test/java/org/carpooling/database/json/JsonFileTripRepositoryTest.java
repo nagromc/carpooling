@@ -56,7 +56,7 @@ class JsonFileTripRepositoryTest {
     void givenTrip_shouldSave() throws FileDatabaseNotFoundException {
       JsonFileTripRepository repository = new JsonFileTripRepository(file);
 
-      repository.add(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
+      repository.add(new Trip(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
 
       List<Trip> trips = repository.findAll();
       assertThat(trips.size(), is(1));
@@ -68,9 +68,9 @@ class JsonFileTripRepositoryTest {
     void givenThreeTrips_shouldSave() throws FileDatabaseNotFoundException {
       JsonFileTripRepository repository = new JsonFileTripRepository(file);
 
-      repository.add(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
-      repository.add(BOB_CARPOOLER, Set.of(DAVID_CARPOOLER));
-      repository.add(DAVID_CARPOOLER, Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER));
+      repository.add(new Trip(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
+      repository.add(new Trip(BOB_CARPOOLER, Set.of(DAVID_CARPOOLER)));
+      repository.add(new Trip(DAVID_CARPOOLER, Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER)));
 
       List<Trip> trips = repository.findAll();
       assertThat(trips.size(), is(3));

@@ -14,7 +14,7 @@ public class CarPoolUseCase {
     if (passengers == null || passengers.isEmpty())
       return;
 
-    tripRepository.add(driver, passengers);
+    tripRepository.add(new Trip(driver, passengers));
   }
 
 }

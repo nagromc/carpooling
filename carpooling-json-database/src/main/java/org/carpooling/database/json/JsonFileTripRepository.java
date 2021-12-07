@@ -1,7 +1,6 @@
 package org.carpooling.database.json;
 
 import com.google.gson.Gson;
-import org.carpooling.Carpooler;
 import org.carpooling.Trip;
 import org.carpooling.TripRepository;
 import org.carpooling.database.json.adapter.TripAdapter;
@@ -14,7 +13,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JsonFileTripRepository implements TripRepository {
@@ -46,13 +44,13 @@ public class JsonFileTripRepository implements TripRepository {
   }
 
   @Override
-  public void add(Carpooler driver, Set<Carpooler> passengers) {
+  public void add(Trip trip) {
     List<Trip> trips = findAll();
 
-    trips.add(new Trip(driver, passengers));
+    trips.add(trip);
 
     List<TripDto> tripDtos = trips.stream()
-      .map(trip -> new TripDtoAdapter(trip).convert())
+      .map(t -> new TripDtoAdapter(t).convert())
       .toList();
 
     content = gson.toJson(tripDtos);

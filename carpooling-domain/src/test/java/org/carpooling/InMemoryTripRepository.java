@@ -2,7 +2,6 @@ package org.carpooling;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class InMemoryTripRepository implements TripRepository {
 
@@ -13,8 +12,8 @@ public class InMemoryTripRepository implements TripRepository {
   }
 
   @Override
-  public void add(Carpooler driver, Set<Carpooler> passengers) {
-    trips.add(new Trip(driver, passengers));
+  public void add(Trip trip) {
+    trips.add(trip);
   }
 
   @Override
