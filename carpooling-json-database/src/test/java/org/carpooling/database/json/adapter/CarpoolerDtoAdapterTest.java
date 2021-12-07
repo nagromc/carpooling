@@ -1,5 +1,6 @@
 package org.carpooling.database.json.adapter;
 
+import org.carpooling.database.json.FileDatabaseException;
 import org.carpooling.database.json.dto.CarpoolerDto;
 import org.carpooling.domain.Carpooler;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,8 @@ public class CarpoolerDtoAdapterTest {
 
   @Test
   void givenNull_shouldThrowException() {
-    assertThrows(IllegalArgumentException.class, () -> new CarpoolerDtoAdapter(null));
+    FileDatabaseException exception = assertThrows(FileDatabaseException.class, () -> new CarpoolerDtoAdapter(null));
+    assertEquals("DTO cannot be null", exception.getMessage());
   }
 
   @Test

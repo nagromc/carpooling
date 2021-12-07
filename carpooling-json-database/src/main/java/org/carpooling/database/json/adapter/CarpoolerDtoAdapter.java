@@ -1,5 +1,6 @@
 package org.carpooling.database.json.adapter;
 
+import org.carpooling.database.json.FileDatabaseException;
 import org.carpooling.database.json.dto.CarpoolerDto;
 import org.carpooling.domain.Carpooler;
 
@@ -14,7 +15,7 @@ public class CarpoolerDtoAdapter {
   }
 
   private void validateArguments(Carpooler carpooler) {
-    if (carpooler == null) throw new IllegalArgumentException();
+    if (carpooler == null) throw new FileDatabaseException("DTO cannot be null");
   }
 
   public CarpoolerDto convert() {

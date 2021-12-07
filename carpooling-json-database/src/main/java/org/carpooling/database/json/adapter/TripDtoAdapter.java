@@ -1,5 +1,6 @@
 package org.carpooling.database.json.adapter;
 
+import org.carpooling.database.json.FileDatabaseException;
 import org.carpooling.database.json.dto.TripDto;
 import org.carpooling.domain.Trip;
 
@@ -17,7 +18,7 @@ public class TripDtoAdapter {
   }
 
   private void validateArguments(Trip trip) {
-    if (trip == null) throw new IllegalArgumentException();
+    if (trip == null) throw new FileDatabaseException("Domain object cannot be null");
   }
 
   public TripDto convert() {

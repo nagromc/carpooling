@@ -1,5 +1,6 @@
 package org.carpooling.database.json.adapter;
 
+import org.carpooling.database.json.FileDatabaseException;
 import org.carpooling.database.json.dto.TripDto;
 import org.carpooling.domain.Carpooler;
 import org.carpooling.domain.Trip;
@@ -16,7 +17,8 @@ public class TripDtoAdapterTest {
 
   @Test
   void givenNull_shouldThrowException() {
-    assertThrows(IllegalArgumentException.class, () -> new TripDtoAdapter(null));
+    FileDatabaseException exception = assertThrows(FileDatabaseException.class, () -> new TripDtoAdapter(null));
+    assertEquals("Domain object cannot be null", exception.getMessage());
   }
 
   @Test
