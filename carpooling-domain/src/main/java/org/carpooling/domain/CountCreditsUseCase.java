@@ -1,4 +1,4 @@
-package org.carpooling;
+package org.carpooling.domain;
 
 import java.util.HashMap;
 import java.util.List;

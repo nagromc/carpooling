@@ -1,7 +1,7 @@
 package org.carpooling.database.json.adapter;
 
-import org.carpooling.Trip;
 import org.carpooling.database.json.dto.TripDto;
+import org.carpooling.domain.Trip;
 
 import java.util.Set;
 import java.util.stream.Collectors;

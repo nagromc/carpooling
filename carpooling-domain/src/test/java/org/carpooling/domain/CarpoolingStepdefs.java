@@ -1,4 +1,4 @@
-package org.carpooling;
+package org.carpooling.domain;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java8.En;

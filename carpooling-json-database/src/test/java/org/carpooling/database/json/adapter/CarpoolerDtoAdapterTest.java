@@ -1,7 +1,7 @@
 package org.carpooling.database.json.adapter;
 
-import org.carpooling.Carpooler;
 import org.carpooling.database.json.dto.CarpoolerDto;
+import org.carpooling.domain.Carpooler;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

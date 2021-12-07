@@ -1,7 +1,7 @@
 package org.carpooling.database.json.adapter;
 
-import org.carpooling.Carpooler;
 import org.carpooling.database.json.dto.CarpoolerDto;
+import org.carpooling.domain.Carpooler;
 
 public class CarpoolerDtoAdapter {
 

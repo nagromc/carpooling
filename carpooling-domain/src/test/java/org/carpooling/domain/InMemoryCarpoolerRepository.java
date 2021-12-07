@@ -1,4 +1,4 @@
-package org.carpooling;
+package org.carpooling.domain;
 
 import java.util.HashSet;
 import java.util.Set;

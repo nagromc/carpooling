@@ -1,4 +1,4 @@
-package org.carpooling;
+package org.carpooling.domain;
 
 public record Carpooler(String name) {
 

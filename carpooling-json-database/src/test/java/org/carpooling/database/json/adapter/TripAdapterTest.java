@@ -1,8 +1,8 @@
 package org.carpooling.database.json.adapter;
 
-import org.carpooling.Carpooler;
-import org.carpooling.Trip;
 import org.carpooling.database.json.dto.TripDto;
+import org.carpooling.domain.Carpooler;
+import org.carpooling.domain.Trip;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;

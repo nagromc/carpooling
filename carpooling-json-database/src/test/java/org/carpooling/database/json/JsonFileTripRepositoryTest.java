@@ -1,7 +1,7 @@
 package org.carpooling.database.json;
 
-import org.carpooling.Carpooler;
-import org.carpooling.Trip;
+import org.carpooling.domain.Carpooler;
+import org.carpooling.domain.Trip;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;

@@ -1,11 +1,11 @@
 package org.carpooling.database.json;
 
 import com.google.gson.Gson;
-import org.carpooling.Trip;
-import org.carpooling.TripRepository;
 import org.carpooling.database.json.adapter.TripAdapter;
 import org.carpooling.database.json.adapter.TripDtoAdapter;
 import org.carpooling.database.json.dto.TripDto;
+import org.carpooling.domain.Trip;
+import org.carpooling.domain.TripRepository;
 
 import java.io.File;
 import java.io.IOException;
