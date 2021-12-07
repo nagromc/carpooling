@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class JsonFileTripRepository implements TripRepository {
 
@@ -75,7 +76,7 @@ public class JsonFileTripRepository implements TripRepository {
 
     return Arrays.stream(tripDtos)
       .map(tripDto -> new TripAdapter(tripDto).convert())
-      .toList();
+      .collect(Collectors.toList());
   }
 
 }

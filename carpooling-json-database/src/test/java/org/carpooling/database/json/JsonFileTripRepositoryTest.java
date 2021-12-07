@@ -64,6 +64,30 @@ class JsonFileTripRepositoryTest {
       assertThat(trips.get(0).passengers(), is(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
     }
 
+    @Test
+    void givenThreeTrips_shouldSave() throws FileDatabaseNotFoundException {
+      JsonFileTripRepository repository = new JsonFileTripRepository(file);
+
+      repository.add(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
+      repository.add(BOB_CARPOOLER, Set.of(DAVID_CARPOOLER));
+      repository.add(DAVID_CARPOOLER, Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER));
+
+      List<Trip> trips = repository.findAll();
+      assertThat(trips.size(), is(3));
+
+      Trip trip1 = trips.get(0);
+      assertThat(trip1.driver(), is(ALICE_CARPOOLER));
+      assertThat(trip1.passengers(), is(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
+
+      Trip trip2 = trips.get(1);
+      assertThat(trip2.driver(), is(BOB_CARPOOLER));
+      assertThat(trip2.passengers(), is(Set.of(DAVID_CARPOOLER)));
+
+      Trip trip3 = trips.get(2);
+      assertThat(trip3.driver(), is(DAVID_CARPOOLER));
+      assertThat(trip3.passengers(), is(Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER)));
+    }
+
   }
 
   @Nested
