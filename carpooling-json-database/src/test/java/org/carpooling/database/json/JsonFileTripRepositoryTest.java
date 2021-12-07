@@ -16,8 +16,6 @@ import java.util.Set;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class JsonFileTripRepositoryTest {
 
@@ -36,17 +34,6 @@ class JsonFileTripRepositoryTest {
   void tearDown() {
     //noinspection ResultOfMethodCallIgnored
     file.delete();
-  }
-
-  @Test
-  void givenNotExistingFile_shouldThrowException() {
-    assertThrows(FileDatabaseNotFoundException.class,
-      () -> new JsonFileTripRepository(new File("/not/existing/path")));
-  }
-
-  @Test
-  void givenExistingFile_shouldNotThrowException() {
-    assertDoesNotThrow(() -> new JsonFileTripRepository(new File("src/test/resources/dummy-database.json")));
   }
 
   @Nested

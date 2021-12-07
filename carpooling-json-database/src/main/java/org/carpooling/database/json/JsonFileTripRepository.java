@@ -8,8 +8,6 @@ import org.carpooling.domain.Trip;
 import org.carpooling.domain.TripRepository;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,30 +15,13 @@ import java.util.stream.Collectors;
 
 public class JsonFileTripRepository implements TripRepository {
 
-  private final File databaseFile;
-  private String content;
+  private final JsonFileManager fileManager;
   private final Gson gson;
 
   public JsonFileTripRepository(File databaseFile) throws FileDatabaseNotFoundException {
     gson = new Gson();
-    this.databaseFile = databaseFile;
 
-    validateParameters();
-
-    content = loadDatabase(this.databaseFile);
-  }
-
-  private String loadDatabase(File file) {
-    try {
-      return Files.readString(file.toPath());
-    } catch (IOException e) {
-      throw new FileDatabaseException(e);
-    }
-  }
-
-  private void validateParameters() throws FileDatabaseNotFoundException {
-    if (!databaseFile.exists())
-      throw new FileDatabaseNotFoundException(String.format("File [%s] not found", databaseFile.getPath()));
+    fileManager = new JsonFileManager(databaseFile);
   }
 
   @Override
@@ -53,20 +34,13 @@ public class JsonFileTripRepository implements TripRepository {
       .map(t -> new TripDtoAdapter(t).convert())
       .toList();
 
-    content = gson.toJson(tripDtos);
-    saveToFile();
-  }
-
-  private void saveToFile() {
-    try {
-      Files.writeString(databaseFile.toPath(), content);
-    } catch (IOException e) {
-      throw new FileDatabaseException(e);
-    }
+    String content = gson.toJson(tripDtos);
+    fileManager.write(content);
   }
 
   @Override
   public List<Trip> findAll() {
+    String content = fileManager.read();
     TripDto[] tripDtos = gson.fromJson(content, TripDto[].class);
 
     if (tripDtos == null)
