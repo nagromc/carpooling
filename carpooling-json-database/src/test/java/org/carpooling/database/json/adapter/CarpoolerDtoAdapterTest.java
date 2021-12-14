@@ -23,7 +23,7 @@ public class CarpoolerDtoAdapterTest {
 
     CarpoolerDto result = adapter.convert();
 
-    assertEquals("Alice", result.name());
+    assertEquals("Alice", result.name);
   }
 
 }

@@ -22,10 +22,10 @@ public class TripDtoAdapter {
   }
 
   public TripDto convert() {
-    String driverName = new CarpoolerDtoAdapter(trip.driver()).convert().name();
+    String driverName = new CarpoolerDtoAdapter(trip.driver()).convert().name;
 
     Set<String> passengersName = trip.passengers().stream()
-      .map(carpooler -> new CarpoolerDtoAdapter(carpooler).convert().name())
+      .map(carpooler -> new CarpoolerDtoAdapter(carpooler).convert().name)
       .collect(Collectors.toSet());
 
     return new TripDto(
