@@ -16,6 +16,7 @@ import java.util.Set;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class JsonFileTripRepositoryTest {
 
@@ -38,6 +39,14 @@ class JsonFileTripRepositoryTest {
 
   @Nested
   class AddTest {
+
+    @Test
+    void givenNull_shouldThrowException() throws FileDatabaseNotFoundException {
+      JsonFileTripRepository repository = new JsonFileTripRepository(file);
+
+      FileDatabaseException exception = assertThrows(FileDatabaseException.class, () -> repository.add(null));
+      assertThat(exception.getMessage(), is("Cannot save null trip"));
+    }
 
     @Test
     void givenTrip_shouldSave() throws FileDatabaseNotFoundException {

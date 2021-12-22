@@ -26,6 +26,8 @@ public class JsonFileTripRepository implements TripRepository {
 
   @Override
   public void add(Trip trip) {
+    validateArgument(trip);
+
     List<Trip> trips = findAll();
 
     trips.add(trip);
@@ -36,6 +38,10 @@ public class JsonFileTripRepository implements TripRepository {
 
     String content = gson.toJson(tripDtos);
     fileManager.write(content);
+  }
+
+  private void validateArgument(Trip trip) {
+    if (trip == null) throw new FileDatabaseException("Cannot save null trip");
   }
 
   @Override
