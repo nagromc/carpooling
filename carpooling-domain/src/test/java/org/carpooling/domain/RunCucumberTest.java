@@ -1,4 +1,4 @@
-package org.carpooling;
+package org.carpooling.domain;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;

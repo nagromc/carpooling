@@ -1,4 +1,4 @@
-package org.carpooling;
+package org.carpooling.domain;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +19,7 @@ public class InMemoryCarpoolerRepository implements CarpoolerRepository {
   @Override
   public Carpooler findByName(String name) {
     return carpoolers.stream() // {A, B, C}
-      .filter(c -> c.getName().equals(name)) // name = "A" -> {A}
+      .filter(c -> c.name().equals(name)) // name = "A" -> {A}
       .findFirst() // A
       .orElse(null); // null
   }
