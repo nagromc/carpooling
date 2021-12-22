@@ -37,70 +37,67 @@ class JsonFileTripRepositoryTest {
     file.delete();
   }
 
-  @Nested
-  class AddTest {
+  @Test
+  void givenNull_shouldThrowException() throws FileDatabaseNotFoundException {
+    JsonFileTripRepository repository = new JsonFileTripRepository(file);
 
-    @Test
-    void givenNull_shouldThrowException() throws FileDatabaseNotFoundException {
-      JsonFileTripRepository repository = new JsonFileTripRepository(file);
-
-      FileDatabaseException exception = assertThrows(FileDatabaseException.class, () -> repository.add(null));
-      assertThat(exception.getMessage(), is("Cannot save null trip"));
-    }
-
-    @Test
-    void givenTrip_shouldSave() throws FileDatabaseNotFoundException {
-      JsonFileTripRepository repository = new JsonFileTripRepository(file);
-
-      repository.add(new Trip(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
-
-      List<Trip> trips = repository.findAll();
-      assertThat(trips.size(), is(1));
-      assertThat(trips.get(0).driver(), is(ALICE_CARPOOLER));
-      assertThat(trips.get(0).passengers(), is(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
-    }
-
-    @Test
-    void givenThreeTrips_shouldSave() throws FileDatabaseNotFoundException {
-      JsonFileTripRepository repository = new JsonFileTripRepository(file);
-
-      repository.add(new Trip(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
-      repository.add(new Trip(BOB_CARPOOLER, Set.of(DAVID_CARPOOLER)));
-      repository.add(new Trip(DAVID_CARPOOLER, Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER)));
-
-      List<Trip> trips = repository.findAll();
-      assertThat(trips.size(), is(3));
-
-      Trip trip1 = trips.get(0);
-      assertThat(trip1.driver(), is(ALICE_CARPOOLER));
-      assertThat(trip1.passengers(), is(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
-
-      Trip trip2 = trips.get(1);
-      assertThat(trip2.driver(), is(BOB_CARPOOLER));
-      assertThat(trip2.passengers(), is(Set.of(DAVID_CARPOOLER)));
-
-      Trip trip3 = trips.get(2);
-      assertThat(trip3.driver(), is(DAVID_CARPOOLER));
-      assertThat(trip3.passengers(), is(Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER)));
-    }
-
+    FileDatabaseException exception = assertThrows(FileDatabaseException.class, () -> repository.add(null));
+    assertThat(exception.getMessage(), is("Cannot save null trip"));
   }
 
   @Nested
-  class FindAllTest {
+  class WithEmptyDatabaseTest {
+
+    @BeforeEach
+    void setUp() throws IOException {
+      String initialContent = "";
+
+      FileWriter writer = new FileWriter(file);
+      writer.write(initialContent);
+      writer.close();
+    }
 
     @Nested
-    class WithEmptyDatabaseTest {
+    class AddTest {
+      @Test
+      void givenTrip_shouldSave() throws FileDatabaseNotFoundException {
+        JsonFileTripRepository repository = new JsonFileTripRepository(file);
 
-      @BeforeEach
-      void setUp() throws IOException {
-        String initialContent = "";
+        repository.add(new Trip(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
 
-        FileWriter writer = new FileWriter(file);
-        writer.write(initialContent);
-        writer.close();
+        List<Trip> trips = repository.findAll();
+        assertThat(trips.size(), is(1));
+        assertThat(trips.get(0).driver(), is(ALICE_CARPOOLER));
+        assertThat(trips.get(0).passengers(), is(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
       }
 
+      @Test
+      void givenThreeTrips_shouldSave() throws FileDatabaseNotFoundException {
+        JsonFileTripRepository repository = new JsonFileTripRepository(file);
+
+        repository.add(new Trip(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
+        repository.add(new Trip(BOB_CARPOOLER, Set.of(DAVID_CARPOOLER)));
+        repository.add(new Trip(DAVID_CARPOOLER, Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER)));
+
+        List<Trip> trips = repository.findAll();
+        assertThat(trips.size(), is(3));
+
+        Trip trip1 = trips.get(0);
+        assertThat(trip1.driver(), is(ALICE_CARPOOLER));
+        assertThat(trip1.passengers(), is(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
+
+        Trip trip2 = trips.get(1);
+        assertThat(trip2.driver(), is(BOB_CARPOOLER));
+        assertThat(trip2.passengers(), is(Set.of(DAVID_CARPOOLER)));
+
+        Trip trip3 = trips.get(2);
+        assertThat(trip3.driver(), is(DAVID_CARPOOLER));
+        assertThat(trip3.passengers(), is(Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER)));
+      }
+    }
+
+    @Nested
+    class FindAllTest {
       @Test
       void givenDatabaseIsEmpty_shouldReturnEmptyList() throws FileDatabaseNotFoundException {
         JsonFileTripRepository repository = new JsonFileTripRepository(file);
@@ -109,8 +106,12 @@ class JsonFileTripRepositoryTest {
 
         assertThat(allTrips.size(), is(0));
       }
-
     }
+
+  }
+
+  @Nested
+  class WithInitializedDatabaseTest {
 
     @BeforeEach
     void setUp() throws IOException {
@@ -137,17 +138,21 @@ class JsonFileTripRepositoryTest {
       writer.close();
     }
 
-    @Test
-    void shouldReturnAllTrips() throws FileDatabaseNotFoundException {
-      JsonFileTripRepository repository = new JsonFileTripRepository(file);
+    @Nested
+    class FindAllTest {
 
-      List<Trip> allTrips = repository.findAll();
+      @Test
+      void shouldReturnAllTrips() throws FileDatabaseNotFoundException {
+        JsonFileTripRepository repository = new JsonFileTripRepository(file);
 
-      Trip expectedTrip1 = new Trip(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
-      Trip expectedTrip2 = new Trip(BOB_CARPOOLER, Set.of(ALICE_CARPOOLER, CHARLIE_CARPOOLER));
-      assertThat(allTrips, is(equalTo(List.of(expectedTrip1, expectedTrip2))));
+        List<Trip> allTrips = repository.findAll();
+
+        Trip expectedTrip1 = new Trip(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
+        Trip expectedTrip2 = new Trip(BOB_CARPOOLER, Set.of(ALICE_CARPOOLER, CHARLIE_CARPOOLER));
+        assertThat(allTrips, is(equalTo(List.of(expectedTrip1, expectedTrip2))));
+      }
+
     }
-
   }
 
 }
