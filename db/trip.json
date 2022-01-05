@@ -1,0 +1,15 @@
+[
+  {
+    "driver": "Alice",
+    "passengers": [
+      "Bob",
+      "Charlie"
+    ]
+  },
+  {
+    "driver": "Bob",
+    "passengers": [
+      "Alice"
+    ]
+  }
+]
