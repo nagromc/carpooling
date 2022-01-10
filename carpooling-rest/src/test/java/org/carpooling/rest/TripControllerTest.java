@@ -47,7 +47,7 @@ public class TripControllerTest {
     );
     when(listTripsUseCase.execute()).thenReturn(initialTrips);
 
-    mockMvc.perform(get("/trip/all"))
+    mockMvc.perform(get("/trips"))
       .andExpect(status().isOk())
       .andExpect(content().json(
         """
@@ -63,7 +63,7 @@ public class TripControllerTest {
   @Test
   void shouldAddATrip() throws Exception {
     mockMvc.perform(
-        post("/trip")
+        post("/trips")
           .contentType(MediaType.APPLICATION_JSON)
           .content("""
             {

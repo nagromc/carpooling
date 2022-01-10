@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController()
-@RequestMapping(value = "trip")
+@RequestMapping(value = "trips")
 public class TripController {
 
   private final ListTripsUseCase listTripsUseCase;
@@ -23,7 +23,7 @@ public class TripController {
     this.carPoolUseCase = carPoolUseCase;
   }
 
-  @GetMapping(value = "all")
+  @GetMapping
   public List<TripDto> all() {
     List<Trip> trips = listTripsUseCase.execute();
 
