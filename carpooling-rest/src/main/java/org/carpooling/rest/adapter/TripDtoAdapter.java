@@ -22,11 +22,11 @@ public class TripDtoAdapter {
   }
 
   public TripDto convert() {
-    Set<String> passengersName = trip.passengers().stream()
-      .map(Carpooler::name)
+    Set<String> passengersId = trip.passengers().stream()
+      .map(Carpooler::id)
       .collect(Collectors.toSet());
 
-    return new TripDto(trip.driver().name(), passengersName);
+    return new TripDto(trip.driver().id(), passengersId);
   }
 
 }

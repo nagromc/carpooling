@@ -17,9 +17,9 @@ public class InMemoryCarpoolerRepository implements CarpoolerRepository {
   }
 
   @Override
-  public Carpooler findByName(String name) {
+  public Carpooler findById(String id) {
     return carpoolers.stream() // {A, B, C}
-      .filter(c -> c.name().equals(name)) // name = "A" -> {A}
+      .filter(c -> c.id().equals(id)) // id = "A" -> {A}
       .findFirst() // A
       .orElse(null); // null
   }

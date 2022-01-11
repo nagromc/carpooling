@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TripDtoAdapterTest {
 
-  public static final Carpooler ALICE = new Carpooler("Alice");
-  public static final Carpooler BOB = new Carpooler("Bob");
-  public static final Carpooler CHARLIE = new Carpooler("Charlie");
+  public static final Carpooler ALICE = new Carpooler("alice");
+  public static final Carpooler BOB = new Carpooler("bob");
+  public static final Carpooler CHARLIE = new Carpooler("charlie");
 
   @Test
   void givenNull_shouldThrowException() {
@@ -31,8 +31,8 @@ public class TripDtoAdapterTest {
 
     TripDto result = adapter.convert();
 
-    assertThat(result.driver(), is("Alice"));
-    assertThat(result.passengers(), containsInAnyOrder("Bob", "Charlie"));
+    assertThat(result.driver(), is("alice"));
+    assertThat(result.passengers(), containsInAnyOrder("bob", "charlie"));
   }
 
 }

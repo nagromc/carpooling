@@ -19,7 +19,7 @@ public class CarpoolerDtoAdapter {
   }
 
   public CarpoolerDto convert() {
-    return new CarpoolerDto(carpooler.name());
+    return new CarpoolerDto(carpooler.id());
   }
 
 }

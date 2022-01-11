@@ -42,34 +42,34 @@ class JsonFileCarpoolerRepositoryTest {
   }
 
   @Test
-  void givenEmptyName_whenAdd_shouldThrowException() throws FileDatabaseNotFoundException {
+  void givenEmptyId_whenAdd_shouldThrowException() throws FileDatabaseNotFoundException {
     JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
 
     IllegalArgumentException exception;
     exception = assertThrows(IllegalArgumentException.class, () -> repository.add(new Carpooler(null)));
-    assertEquals("Carpooler name cannot be empty", exception.getMessage());
+    assertEquals("Carpooler id cannot be empty", exception.getMessage());
     exception = assertThrows(IllegalArgumentException.class, () -> repository.add(new Carpooler("")));
-    assertEquals("Carpooler name cannot be empty", exception.getMessage());
+    assertEquals("Carpooler id cannot be empty", exception.getMessage());
     exception = assertThrows(IllegalArgumentException.class, () -> repository.add(new Carpooler("  ")));
-    assertEquals("Carpooler name cannot be empty", exception.getMessage());
+    assertEquals("Carpooler id cannot be empty", exception.getMessage());
   }
 
   @Test
-  void givenNull_whenFindByName_shouldThrowException() throws FileDatabaseNotFoundException {
+  void givenNull_whenFindById_shouldThrowException() throws FileDatabaseNotFoundException {
     JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
 
     IllegalArgumentException exception =
-      assertThrows(IllegalArgumentException.class, () -> repository.findByName(null));
+      assertThrows(IllegalArgumentException.class, () -> repository.findById(null));
 
     assertEquals("Carpooler cannot be null", exception.getMessage());
   }
 
   @Test
-  void givenNonExistingCarpooler_whenFindByName_shouldThrowException() throws FileDatabaseNotFoundException {
+  void givenNonExistingCarpooler_whenFindById_shouldThrowException() throws FileDatabaseNotFoundException {
     JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
 
     FileDatabaseException exception =
-      assertThrows(FileDatabaseException.class, () -> repository.findByName("foobar"));
+      assertThrows(FileDatabaseException.class, () -> repository.findById("foobar"));
 
     assertEquals("Carpooler [foobar] not found", exception.getMessage());
   }
@@ -92,11 +92,11 @@ class JsonFileCarpoolerRepositoryTest {
       void givenCarpooler_shouldWrite() throws FileDatabaseNotFoundException {
         JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
 
-        repository.add(new Carpooler("Alice"));
+        repository.add(new Carpooler("alice"));
 
         Set<Carpooler> carpoolers = repository.findAll();
         assertEquals(1, carpoolers.size());
-        assertThat(carpoolers, contains(new Carpooler("Alice")));
+        assertThat(carpoolers, contains(new Carpooler("alice")));
       }
     }
 
@@ -120,9 +120,9 @@ class JsonFileCarpoolerRepositoryTest {
     void setUp() throws IOException {
       String initialContent = """
         [
-          {"name": "Alice"},
-          {"name": "Bob"},
-          {"name": "Charlie"}
+          {"id": "alice"},
+          {"id": "bob"},
+          {"id": "charlie"}
         ]""";
 
       FileWriter writer = new FileWriter(file);
@@ -137,22 +137,22 @@ class JsonFileCarpoolerRepositoryTest {
         JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
 
         IllegalArgumentException exception =
-          assertThrows(IllegalArgumentException.class, () -> repository.add(new Carpooler("Alice")));
+          assertThrows(IllegalArgumentException.class, () -> repository.add(new Carpooler("alice")));
 
-        assertEquals("Entry [Alice] already exists", exception.getMessage());
+        assertEquals("Entry [alice] already exists", exception.getMessage());
       }
     }
 
     @Nested
-    class FindByNameTest {
+    class FindByIdTest {
       @Test
       void givenExistingCarpooler_shouldReturnCarpooler() throws FileDatabaseNotFoundException {
         JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
 
-        Carpooler result = repository.findByName("Alice");
+        Carpooler result = repository.findById("alice");
 
         assertNotNull(result);
-        assertEquals(new Carpooler("Alice"), result);
+        assertEquals(new Carpooler("alice"), result);
       }
     }
 
@@ -166,9 +166,9 @@ class JsonFileCarpoolerRepositoryTest {
         assertThat(result.size(), is(3));
         assertThat(result,
           containsInAnyOrder(
-            new Carpooler("Alice"),
-            new Carpooler("Bob"),
-            new Carpooler("Charlie")
+            new Carpooler("alice"),
+            new Carpooler("bob"),
+            new Carpooler("charlie")
           )
         );
       }
@@ -183,10 +183,10 @@ class JsonFileCarpoolerRepositoryTest {
     void setUp() throws IOException {
       String initialContent = """
         [
-          {"name": "Alice"},
-          {"name": "Alice"},
-          {"name": "Bob"},
-          {"name": "Charlie"}
+          {"id": "alice"},
+          {"id": "alice"},
+          {"id": "bob"},
+          {"id": "charlie"}
         ]""";
 
       FileWriter writer = new FileWriter(file);
@@ -195,13 +195,13 @@ class JsonFileCarpoolerRepositoryTest {
     }
 
     @Nested
-    class FindByNameTest {
+    class FindByIdTest {
       @Test
       void givenTwoOrMoreMatches_shouldThrowException() throws FileDatabaseNotFoundException {
         JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
 
         FileDatabaseException exception =
-          assertThrows(FileDatabaseException.class, () -> repository.findByName("Alice"));
+          assertThrows(FileDatabaseException.class, () -> repository.findById("alice"));
 
         assertEquals("Duplicated entry has been found", exception.getMessage());
       }

@@ -5,7 +5,7 @@ import java.util.Set;
 public interface CarpoolerRepository {
 
   void add(Carpooler carpooler);
-  Carpooler findByName(String name);
+  Carpooler findById(String id);
   Set<Carpooler> findAll();
 
 }

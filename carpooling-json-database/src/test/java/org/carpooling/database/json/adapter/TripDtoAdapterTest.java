@@ -24,15 +24,15 @@ public class TripDtoAdapterTest {
   @Test
   void givenTrip_shouldConvert() {
     Trip domainTrip = new Trip(
-      new Carpooler("Alice"),
-      Set.of(new Carpooler("Bob"), new Carpooler("Charlie"))
+      new Carpooler("alice"),
+      Set.of(new Carpooler("bob"), new Carpooler("charlie"))
     );
     TripDtoAdapter adapter = new TripDtoAdapter(domainTrip);
 
     TripDto result = adapter.convert();
 
-    assertEquals("Alice", result.driverName);
-    assertThat(result.passengersName, contains("Bob", "Charlie"));
+    assertEquals("alice", result.driverId);
+    assertThat(result.passengersId, contains("bob", "charlie"));
   }
 
 }

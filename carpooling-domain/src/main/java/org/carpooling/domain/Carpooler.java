@@ -1,10 +1,10 @@
 package org.carpooling.domain;
 
-public record Carpooler(String name) {
+public record Carpooler(String id) {
 
   @Override
   public String toString() {
-    return name;
+    return id;
   }
 
 }

@@ -7,13 +7,13 @@ import java.util.Set;
 public final class TripDto {
 
   @SerializedName("driver")
-  public final String driverName;
+  public final String driverId;
   @SerializedName("passengers")
-  public final Set<String> passengersName;
+  public final Set<String> passengersId;
 
-  public TripDto(String driverName, Set<String> passengersName) {
-    this.driverName = driverName;
-    this.passengersName = passengersName;
+  public TripDto(String driverId, Set<String> passengersId) {
+    this.driverId = driverId;
+    this.passengersId = passengersId;
   }
 
 }

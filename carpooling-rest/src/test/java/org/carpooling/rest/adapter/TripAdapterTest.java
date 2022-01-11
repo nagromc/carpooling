@@ -21,12 +21,12 @@ class TripAdapterTest {
 
   @Test
   void shouldReturnTrip() {
-    TripDto tripDto = new TripDto("Alice", Set.of("Bob", "Charlie"));
+    TripDto tripDto = new TripDto("alice", Set.of("bob", "charlie"));
 
     Trip result = new TripAdapter(tripDto).convert();
 
-    assertThat(result.driver(), is(new Carpooler("Alice")));
-    assertThat(result.passengers(), is(Set.of(new Carpooler("Bob"), new Carpooler("Charlie"))));
+    assertThat(result.driver(), is(new Carpooler("alice")));
+    assertThat(result.passengers(), is(Set.of(new Carpooler("bob"), new Carpooler("charlie"))));
   }
 
 }

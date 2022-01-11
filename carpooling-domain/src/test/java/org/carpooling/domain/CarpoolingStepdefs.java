@@ -42,16 +42,16 @@ public class CarpoolingStepdefs implements En {
       carpoolersCredits = countCreditsUseCase.execute()
     );
 
-    When("{string} drives alone", (String driverName) -> {
-      Carpooler driver = carpoolerRepository.findByName(driverName);
+    When("{string} drives alone", (String driverId) -> {
+      Carpooler driver = carpoolerRepository.findById(driverId);
 
       carPoolUseCase.execute(driver, Collections.emptySet());
     });
 
-    When("{string} drives with:", (String driverName, DataTable passengersNamesDataTable) -> {
-      Carpooler driver = carpoolerRepository.findByName(driverName);
-      Set<Carpooler> passengers = passengersNamesDataTable.asList().stream()
-        .map(carpoolerRepository::findByName)
+    When("{string} drives with:", (String driverId, DataTable passengersIdsDataTable) -> {
+      Carpooler driver = carpoolerRepository.findById(driverId);
+      Set<Carpooler> passengers = passengersIdsDataTable.asList().stream()
+        .map(carpoolerRepository::findById)
         .collect(Collectors.toSet());
 
       carPoolUseCase.execute(driver, passengers);
@@ -72,16 +72,16 @@ public class CarpoolingStepdefs implements En {
     ));
 
     DataTableType((Map<String, String> row) -> new Credit(
-      carpoolerRepository.findByName(row.get("carpooler")),
+      carpoolerRepository.findById(row.get("carpooler")),
       Float.parseFloat(row.get("credit"))
     ));
 
   }
 
-  private Carpooler findCarpoolerOrCreate(String carpoolerName) {
-    Carpooler carpooler = carpoolerRepository.findByName(carpoolerName);
+  private Carpooler findCarpoolerOrCreate(String carpoolerId) {
+    Carpooler carpooler = carpoolerRepository.findById(carpoolerId);
     if (carpooler == null) {
-      carpooler = new Carpooler(carpoolerName);
+      carpooler = new Carpooler(carpoolerId);
       carpoolerRepository.add(carpooler);
     }
     return carpooler;

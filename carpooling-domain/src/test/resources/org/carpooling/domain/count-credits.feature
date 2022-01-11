@@ -4,20 +4,20 @@ Feature: Count owed trips
   Scenario: One trip is owed
     Given the following trips:
       | driver | nbOfTrips | passenger |
-      | Alice  | 1         | Bob       |
+      | alice  | 1         | bob       |
     When the credits are counted
     Then the credits should be:
       | carpooler | credit |
-      | Alice     | 0.5    |
-      | Bob       | -0.5   |
+      | alice     | 0.5    |
+      | bob       | -0.5   |
 
   Scenario: A returned trip between two carpoolers is cancelled
     Given the following trips:
       | driver | nbOfTrips | passenger |
-      | Alice  | 1         | Bob       |
-      | Bob    | 1         | Alice     |
+      | alice  | 1         | bob       |
+      | bob    | 1         | alice     |
     When the credits are counted
     Then the credits should be:
       | carpooler | credit |
-      | Alice     | 0      |
-      | Bob       | 0      |
+      | alice     | 0      |
+      | bob       | 0      |

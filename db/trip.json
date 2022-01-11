@@ -1,15 +1,15 @@
 [
   {
-    "driver": "Alice",
+    "driver": "alice",
     "passengers": [
-      "Bob",
-      "Charlie"
+      "bob",
+      "charlie"
     ]
   },
   {
-    "driver": "Bob",
+    "driver": "bob",
     "passengers": [
-      "Alice"
+      "alice"
     ]
   }
 ]

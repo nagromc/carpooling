@@ -24,12 +24,12 @@ public class TripAdapter {
   }
 
   public Trip convert() {
-    CarpoolerDto driverDto = new CarpoolerDto(tripDto.driverName);
+    CarpoolerDto driverDto = new CarpoolerDto(tripDto.driverId);
     Carpooler driver = new CarpoolerAdapter(driverDto).convert();
 
-    Set<Carpooler> passengers = tripDto.passengersName.stream()
-      .map(name -> {
-        CarpoolerDto passengerDto = new CarpoolerDto(name);
+    Set<Carpooler> passengers = tripDto.passengersId.stream()
+      .map(id -> {
+        CarpoolerDto passengerDto = new CarpoolerDto(id);
         return new CarpoolerAdapter(passengerDto).convert();
       })
       .collect(Collectors.toSet());

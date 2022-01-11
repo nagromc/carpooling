@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public final class CarpoolerDto {
 
-  public final String name;
+  public final String id;
 
-  public CarpoolerDto(String name) {
-    this.name = name;
+  public CarpoolerDto(String id) {
+    this.id = id;
   }
 
   @Override
@@ -15,12 +15,12 @@ public final class CarpoolerDto {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     CarpoolerDto that = (CarpoolerDto) o;
-    return Objects.equals(name, that.name);
+    return Objects.equals(id, that.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(id);
   }
 
 }

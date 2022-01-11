@@ -35,9 +35,9 @@ public class TripControllerTest {
   @MockBean
   private CarPoolUseCase carPoolUseCase;
 
-  public static final Carpooler ALICE = new Carpooler("Alice");
-  public static final Carpooler BOB = new Carpooler("Bob");
-  public static final Carpooler CHARLIE = new Carpooler("Charlie");
+  public static final Carpooler ALICE = new Carpooler("alice");
+  public static final Carpooler BOB = new Carpooler("bob");
+  public static final Carpooler CHARLIE = new Carpooler("charlie");
 
   @Test
   void shouldReturnAllTrips() throws Exception {
@@ -52,10 +52,10 @@ public class TripControllerTest {
       .andExpect(content().json(
         """
         [
-          {"driver":"Alice",
-            "passengers":["Bob", "Charlie"]},
-          {"driver":"Bob",
-            "passengers":["Alice"]}
+          {"driver":"alice",
+            "passengers":["bob", "charlie"]},
+          {"driver":"bob",
+            "passengers":["alice"]}
         ]"""
       ));
   }
@@ -67,8 +67,8 @@ public class TripControllerTest {
           .contentType(MediaType.APPLICATION_JSON)
           .content("""
             {
-              "driver": "Charlie",
-              "passengers": ["Bob"]
+              "driver": "charlie",
+              "passengers": ["bob"]
             }
             """)
       )

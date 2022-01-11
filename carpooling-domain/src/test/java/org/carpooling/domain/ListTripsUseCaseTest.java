@@ -12,9 +12,9 @@ import static org.hamcrest.Matchers.is;
 
 public class ListTripsUseCaseTest {
 
-  public static final Carpooler ALICE = new Carpooler("Alice");
-  public static final Carpooler BOB = new Carpooler("Bob");
-  public static final Carpooler CHARLIE = new Carpooler("Charlie");
+  public static final Carpooler ALICE = new Carpooler("alice");
+  public static final Carpooler BOB = new Carpooler("bob");
+  public static final Carpooler CHARLIE = new Carpooler("charlie");
   private ListTripsUseCase listTripsUseCase;
 
   @BeforeEach

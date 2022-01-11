@@ -32,7 +32,7 @@ public class JsonFileCarpoolerRepository implements CarpoolerRepository {
 
     boolean foundExistingEntry = !carpoolers.add(carpooler);
     if (foundExistingEntry)
-      throw new IllegalArgumentException("Entry [%s] already exists".formatted(carpooler.name()));
+      throw new IllegalArgumentException("Entry [%s] already exists".formatted(carpooler.id()));
 
     Set<CarpoolerDto> dtos = carpoolers.stream()
       .map(c -> new CarpoolerDtoAdapter(c).convert())
@@ -46,28 +46,28 @@ public class JsonFileCarpoolerRepository implements CarpoolerRepository {
     if (carpooler == null)
       throw new IllegalArgumentException("Carpooler cannot be null");
 
-    if (carpooler.name() == null || carpooler.name().isBlank())
-      throw new IllegalArgumentException("Carpooler name cannot be empty");
+    if (carpooler.id() == null || carpooler.id().isBlank())
+      throw new IllegalArgumentException("Carpooler id cannot be empty");
   }
 
   @Override
-  public Carpooler findByName(String name) {
-    if (name == null)
+  public Carpooler findById(String id) {
+    if (id == null)
       throw new IllegalArgumentException("Carpooler cannot be null");
 
-    Optional<Carpooler> foundCarpooler = findCarpoolerByName(name);
+    Optional<Carpooler> foundCarpooler = findCarpoolerById(id);
 
     if (foundCarpooler.isEmpty())
-      throw new FileDatabaseException("Carpooler [%s] not found".formatted(name));
+      throw new FileDatabaseException("Carpooler [%s] not found".formatted(id));
 
     return foundCarpooler.get();
   }
 
-  private Optional<Carpooler> findCarpoolerByName(String name) {
+  private Optional<Carpooler> findCarpoolerById(String id) {
     Set<Carpooler> carpoolers = findAll();
 
     return carpoolers.stream()
-      .filter(carpooler -> carpooler.name().equals(name))
+      .filter(carpooler -> carpooler.id().equals(id))
       .findFirst();
   }
 
