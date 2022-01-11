@@ -12,13 +12,13 @@ import java.util.List;
 
 @RestController()
 @RequestMapping(value = "trips")
-public class TripController {
+public class TripsController {
 
   private final ListTripsUseCase listTripsUseCase;
   private final CarPoolUseCase carPoolUseCase;
 
-  public TripController(ListTripsUseCase listTripsUseCase,
-                        CarPoolUseCase carPoolUseCase) {
+  public TripsController(ListTripsUseCase listTripsUseCase,
+                         CarPoolUseCase carPoolUseCase) {
     this.listTripsUseCase = listTripsUseCase;
     this.carPoolUseCase = carPoolUseCase;
   }
