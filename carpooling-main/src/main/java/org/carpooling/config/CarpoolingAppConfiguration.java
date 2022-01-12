@@ -3,10 +3,12 @@ package org.carpooling.config;
 import org.carpooling.database.json.FileDatabaseNotFoundException;
 import org.carpooling.database.json.JsonFileTripRepository;
 import org.carpooling.domain.CarPoolUseCase;
+import org.carpooling.domain.CountCreditsUseCase;
 import org.carpooling.domain.ListTripsUseCase;
 import org.carpooling.domain.TripRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.io.File;
 
@@ -26,6 +28,12 @@ public class CarpoolingAppConfiguration {
   @Bean
   public CarPoolUseCase carPoolUseCase(TripRepository tripRepository) {
     return new CarPoolUseCase(tripRepository);
+  }
+
+  @Bean
+  @RequestScope
+  public CountCreditsUseCase countCreditsUseCase(TripRepository tripRepository) {
+    return new CountCreditsUseCase(tripRepository);
   }
 
 }
