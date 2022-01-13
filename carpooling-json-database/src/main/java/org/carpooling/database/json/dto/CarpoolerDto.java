@@ -5,9 +5,16 @@ import java.util.Objects;
 public final class CarpoolerDto {
 
   public final String id;
+  public final String displayName;
 
   public CarpoolerDto(String id) {
     this.id = id;
+    displayName = null;
+  }
+
+  public CarpoolerDto(String id, String displayName) {
+    this.id = id;
+    this.displayName = displayName;
   }
 
   @Override

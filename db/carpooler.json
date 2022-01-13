@@ -1,5 +1,10 @@
 [
-  "alice",
-  "bob",
-  "charlie"
+  {
+    "id": "alice",
+    "displayName": "Alice"
+  },
+  {
+    "id": "bob",
+    "displayName": "Bob"
+  }
 ]
