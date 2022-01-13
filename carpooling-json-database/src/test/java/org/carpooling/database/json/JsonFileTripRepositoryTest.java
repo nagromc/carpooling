@@ -20,9 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class JsonFileTripRepositoryTest {
 
-  private static final Carpooler ALICE_CARPOOLER = new Carpooler("Alice");
-  private static final Carpooler BOB_CARPOOLER = new Carpooler("Bob");
-  private static final Carpooler CHARLIE_CARPOOLER = new Carpooler("Charlie");
+  private static final Carpooler ALICE_CARPOOLER = new Carpooler("alice");
+  private static final Carpooler BOB_CARPOOLER = new Carpooler("bob");
+  private static final Carpooler CHARLIE_CARPOOLER = new Carpooler("charlie");
   private static final Carpooler DAVID_CARPOOLER = new Carpooler("David");
   private File file;
 
@@ -118,17 +118,17 @@ class JsonFileTripRepositoryTest {
       String initialContent = """
         [
           {
-            "driver": "Alice",
+            "driver": "alice",
             "passengers": [
-              "Bob",
-              "Charlie"
+              "bob",
+              "charlie"
             ]
           },
           {
-            "driver": "Bob",
+            "driver": "bob",
             "passengers": [
-              "Alice",
-              "Charlie"
+              "alice",
+              "charlie"
             ]
           }
         ]""";

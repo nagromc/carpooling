@@ -24,15 +24,15 @@ public class TripAdapterTest {
 
   @Test
   void givenTripDto_shouldReturnTrip() {
-    TripDto tripDto = new TripDto("Alice", Set.of("Bob", "Charlie"));
+    TripDto tripDto = new TripDto("alice", Set.of("bob", "charlie"));
     TripAdapter adapter = new TripAdapter(tripDto);
 
     Trip result = adapter.convert();
 
-    assertEquals("Alice", result.driver().name());
+    assertEquals("alice", result.driver().id());
     assertThat(
-      result.passengers().stream().map(Carpooler::name).collect(Collectors.toSet()),
-      contains("Bob", "Charlie")
+      result.passengers().stream().map(Carpooler::id).collect(Collectors.toSet()),
+      contains("bob", "charlie")
     );
   }
 

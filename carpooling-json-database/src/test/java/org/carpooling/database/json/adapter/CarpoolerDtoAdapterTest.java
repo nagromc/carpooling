@@ -18,12 +18,13 @@ public class CarpoolerDtoAdapterTest {
 
   @Test
   void givenCarpooler_shouldConvert() {
-    Carpooler carpooler = new Carpooler("Alice");
+    Carpooler carpooler = new Carpooler("alice", "Alice");
     CarpoolerDtoAdapter adapter = new CarpoolerDtoAdapter(carpooler);
 
     CarpoolerDto result = adapter.convert();
 
-    assertEquals("Alice", result.name);
+    assertEquals("alice", result.id);
+    assertEquals("Alice", result.displayName);
   }
 
 }
