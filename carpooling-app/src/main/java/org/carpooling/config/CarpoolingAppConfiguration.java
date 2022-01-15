@@ -13,14 +13,20 @@ import java.io.File;
 @Component
 public class CarpoolingAppConfiguration {
 
+  private final DatabaseConfiguration databaseConfig;
+
+  public CarpoolingAppConfiguration(DatabaseConfiguration databaseConfig) {
+    this.databaseConfig = databaseConfig;
+  }
+
   @Bean
   public TripRepository tripRepository() throws FileDatabaseNotFoundException {
-    return new JsonFileTripRepository(new File("db/trip.json"));
+    return new JsonFileTripRepository(new File(databaseConfig.getBasePath() + "/trip.json"));
   }
 
   @Bean
   public CarpoolerRepository carpoolerRepository() throws FileDatabaseNotFoundException {
-    return new JsonFileCarpoolerRepository(new File("db/carpooler.json"));
+    return new JsonFileCarpoolerRepository(new File(databaseConfig.getBasePath() + "/carpooler.json"));
   }
 
   @Bean
