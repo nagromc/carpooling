@@ -11,13 +11,18 @@ public class CountCreditsUseCase {
   private final Map<Carpooler, Float> credits;
 
   public CountCreditsUseCase(TripRepository tripRepository) {
+    this(tripRepository, new HashMap<>());
+  }
+
+  CountCreditsUseCase(TripRepository tripRepository, Map<Carpooler, Float> credits) {
     this.tripRepository = tripRepository;
-    credits = new HashMap<>();
+    this.credits = credits;
   }
 
   public Map<Carpooler, Float> execute() {
     List<Trip> trips = tripRepository.findAll();
     trips.forEach(this::updateCreditsForTrip);
+    validateCreditsSanityCheck();
     return credits;
   }
 
@@ -59,6 +64,15 @@ public class CountCreditsUseCase {
 
   private float calculateCarpoolerCredits(Float currentCarpoolerCredits, int numberOfCarpoolers) {
     return currentCarpoolerCredits - 1 / (float) numberOfCarpoolers;
+  }
+
+  private void validateCreditsSanityCheck() {
+    double sum = credits.values().stream()
+      .mapToDouble(Float::doubleValue)
+      .sum();
+
+    if (!FloatingPointComparator.equals(sum, 0, 0.00001f))
+      throw new InconsistentCalculatedCreditsException(sum);
   }
 
 }
