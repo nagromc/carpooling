@@ -40,8 +40,8 @@ public class CountCreditsUseCase {
     updateCreditsForCarpooler(passenger, calculatePassengerCredits(trip, passenger));
   }
 
-  private void updateCreditsForCarpooler(Carpooler driver, float value) {
-    credits.put(driver, value);
+  private void updateCreditsForCarpooler(Carpooler carpooler, float value) {
+    credits.put(carpooler, value);
   }
 
   private float calculateDriverCredits(Trip trip, Carpooler driver) {
