@@ -10,7 +10,7 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>carpooling-main</artifactId>
+  <artifactId>carpooling-app</artifactId>
 
   <dependencies>
     <dependency>
