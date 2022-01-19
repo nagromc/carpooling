@@ -1,0 +1,43 @@
+### Get every trips
+GET http://localhost:8080/trips
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+### Add a new trip
+POST http://localhost:8080/trips
+Content-Type: application/json
+
+{
+  "driver": "foo",
+  "passengers": [
+    "bar"
+  ]
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+### Get the credits
+GET http://localhost:8080/credits
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+### List the carpoolers
+GET http://localhost:8080/carpoolers
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
