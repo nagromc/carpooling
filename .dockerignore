@@ -1,0 +1,10 @@
+**/*.iml
+**/target/
+.editorconfig
+.git/
+.github/
+.idea/
+.run/
+db/
+Dockerfile
+README.md

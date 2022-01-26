@@ -45,8 +45,11 @@
           <execution>
             <phase>package</phase>
             <goals>
-              <goal>build-image</goal>
+              <goal>repackage</goal>
             </goals>
+            <configuration>
+              <finalName>carpooling-app</finalName>
+            </configuration>
           </execution>
         </executions>
       </plugin>
