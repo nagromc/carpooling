@@ -9,9 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -34,9 +32,9 @@ public class TripDtoAdapterTest {
 
     TripDto result = adapter.convert();
 
-    assertThat(result.date, is("2015-10-21"));
+    assertThat(result.date).isEqualTo("2015-10-21");
     assertEquals("alice", result.driverId);
-    assertThat(result.passengersId, contains("bob", "charlie"));
+    assertThat(result.passengersId).contains("bob", "charlie");
   }
 
 }

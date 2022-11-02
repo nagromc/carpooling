@@ -7,9 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ListTripsUseCaseTest {
 
@@ -32,11 +30,12 @@ public class ListTripsUseCaseTest {
   void shouldReturnAllTrips() {
     List<Trip> result = listTripsUseCase.execute();
 
-    assertThat(result.size(), is(2));
-    assertThat(result, containsInAnyOrder(
-      new Trip(DAY1, ALICE, Set.of(BOB, CHARLIE)),
-      new Trip(DAY2, BOB, Set.of(ALICE))
-    ));
+    assertThat(result)
+      .hasSize(2)
+      .contains(
+        new Trip(DAY1, ALICE, Set.of(BOB, CHARLIE)),
+        new Trip(DAY2, BOB, Set.of(ALICE))
+      );
   }
 
 }

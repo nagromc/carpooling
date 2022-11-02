@@ -4,8 +4,7 @@ import org.carpooling.domain.Carpooler;
 import org.carpooling.rest.dto.CarpoolerDto;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CarpoolerDtoAdapterTest {
@@ -14,7 +13,7 @@ public class CarpoolerDtoAdapterTest {
   void givenNull_ShouldThrowException() {
     IllegalArgumentException exception =
       assertThrows(IllegalArgumentException.class, () -> new CarpoolerDtoAdapter(null));
-    assertThat(exception.getMessage(), is("Carpooler cannot be null"));
+    assertThat(exception.getMessage()).isEqualTo("Carpooler cannot be null");
   }
 
   @Test
@@ -23,7 +22,7 @@ public class CarpoolerDtoAdapterTest {
 
     CarpoolerDto result = adapter.convert();
 
-    assertThat(result.id(), is("alice"));
+    assertThat(result.id()).isEqualTo("alice");
   }
 
 }

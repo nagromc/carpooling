@@ -8,11 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -31,12 +28,9 @@ public class TripAdapterTest {
 
     Trip result = adapter.convert();
 
-    assertThat(result.date(), is(LocalDate.parse("2015-10-21")));
+    assertThat(result.date()).isEqualTo(LocalDate.parse("2015-10-21"));
     assertEquals("alice", result.driver().id());
-    assertThat(
-      result.passengers().stream().map(Carpooler::id).collect(Collectors.toSet()),
-      contains("bob", "charlie")
-    );
+    assertThat(result.passengers()).map(Carpooler::id).contains("bob", "charlie");
   }
 
 }

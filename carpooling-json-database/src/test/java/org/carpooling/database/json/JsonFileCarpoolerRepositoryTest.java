@@ -11,8 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -95,8 +94,10 @@ class JsonFileCarpoolerRepositoryTest {
         repository.add(new Carpooler("alice"));
 
         Set<Carpooler> carpoolers = repository.findAll();
-        assertEquals(1, carpoolers.size());
-        assertThat(carpoolers, contains(new Carpooler("alice")));
+        assertThat(carpoolers)
+          .hasSize(1)
+          .map(Carpooler::id)
+          .contains("alice");
       }
     }
 
@@ -107,7 +108,7 @@ class JsonFileCarpoolerRepositoryTest {
         JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
         Set<Carpooler> result = repository.findAll();
 
-        assertThat(result.size(), is(0));
+        assertThat(result).isNotNull().isEmpty();
       }
     }
 
@@ -163,14 +164,10 @@ class JsonFileCarpoolerRepositoryTest {
         JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
         Set<Carpooler> result = repository.findAll();
 
-        assertThat(result.size(), is(3));
-        assertThat(result,
-          containsInAnyOrder(
-            new Carpooler("alice"),
-            new Carpooler("bob"),
-            new Carpooler("charlie")
-          )
-        );
+        assertThat(result)
+          .hasSize(3)
+          .map(Carpooler::id)
+          .contains("alice", "bob", "charlie");
       }
     }
 
