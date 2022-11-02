@@ -6,6 +6,7 @@ import org.carpooling.database.json.dto.TripDto;
 import org.carpooling.domain.Carpooler;
 import org.carpooling.domain.Trip;
 
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,8 @@ public class TripAdapter {
 
   public Trip convert() {
     CarpoolerDto driverDto = new CarpoolerDto(tripDto.driverId);
+
+    LocalDate date = LocalDate.parse(tripDto.date);
     Carpooler driver = new CarpoolerAdapter(driverDto).convert();
 
     Set<Carpooler> passengers = tripDto.passengersId.stream()
@@ -34,7 +37,7 @@ public class TripAdapter {
       })
       .collect(Collectors.toSet());
 
-    return new Trip(driver, passengers);
+    return new Trip(date, driver, passengers);
   }
 
 }

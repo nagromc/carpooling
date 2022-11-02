@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -24,6 +25,9 @@ class JsonFileTripRepositoryTest {
   private static final Carpooler BOB_CARPOOLER = new Carpooler("bob");
   private static final Carpooler CHARLIE_CARPOOLER = new Carpooler("charlie");
   private static final Carpooler DAVID_CARPOOLER = new Carpooler("David");
+  public static final LocalDate DAY1 = LocalDate.parse("2015-10-21");
+  public static final LocalDate DAY2 = LocalDate.parse("2015-10-22");
+  public static final LocalDate DAY3 = LocalDate.parse("2015-10-23");
   private File file;
 
   @BeforeEach
@@ -63,10 +67,11 @@ class JsonFileTripRepositoryTest {
       void givenTrip_shouldSave() throws FileDatabaseNotFoundException {
         JsonFileTripRepository repository = new JsonFileTripRepository(file);
 
-        repository.add(new Trip(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
+        repository.add(new Trip(DAY1, ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
 
         List<Trip> trips = repository.findAll();
         assertThat(trips.size(), is(1));
+        assertThat(trips.get(0).date(), is(DAY1));
         assertThat(trips.get(0).driver(), is(ALICE_CARPOOLER));
         assertThat(trips.get(0).passengers(), is(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
       }
@@ -75,22 +80,25 @@ class JsonFileTripRepositoryTest {
       void givenThreeTrips_shouldSave() throws FileDatabaseNotFoundException {
         JsonFileTripRepository repository = new JsonFileTripRepository(file);
 
-        repository.add(new Trip(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
-        repository.add(new Trip(BOB_CARPOOLER, Set.of(DAVID_CARPOOLER)));
-        repository.add(new Trip(DAVID_CARPOOLER, Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER)));
+        repository.add(new Trip(DAY1, ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
+        repository.add(new Trip(DAY2, BOB_CARPOOLER, Set.of(DAVID_CARPOOLER)));
+        repository.add(new Trip(DAY3, DAVID_CARPOOLER, Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER)));
 
         List<Trip> trips = repository.findAll();
         assertThat(trips.size(), is(3));
 
         Trip trip1 = trips.get(0);
+        assertThat(trip1.date(), is(DAY1));
         assertThat(trip1.driver(), is(ALICE_CARPOOLER));
         assertThat(trip1.passengers(), is(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
 
         Trip trip2 = trips.get(1);
+        assertThat(trip2.date(), is(DAY2));
         assertThat(trip2.driver(), is(BOB_CARPOOLER));
         assertThat(trip2.passengers(), is(Set.of(DAVID_CARPOOLER)));
 
         Trip trip3 = trips.get(2);
+        assertThat(trip3.date(), is(DAY3));
         assertThat(trip3.driver(), is(DAVID_CARPOOLER));
         assertThat(trip3.passengers(), is(Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER)));
       }
@@ -118,6 +126,7 @@ class JsonFileTripRepositoryTest {
       String initialContent = """
         [
           {
+            "date": "2015-10-21",
             "driver": "alice",
             "passengers": [
               "bob",
@@ -125,6 +134,7 @@ class JsonFileTripRepositoryTest {
             ]
           },
           {
+            "date": "2015-10-22",
             "driver": "bob",
             "passengers": [
               "alice",
@@ -147,8 +157,8 @@ class JsonFileTripRepositoryTest {
 
         List<Trip> allTrips = repository.findAll();
 
-        Trip expectedTrip1 = new Trip(ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
-        Trip expectedTrip2 = new Trip(BOB_CARPOOLER, Set.of(ALICE_CARPOOLER, CHARLIE_CARPOOLER));
+        Trip expectedTrip1 = new Trip(DAY1, ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
+        Trip expectedTrip2 = new Trip(DAY2, BOB_CARPOOLER, Set.of(ALICE_CARPOOLER, CHARLIE_CARPOOLER));
         assertThat(allTrips, is(equalTo(List.of(expectedTrip1, expectedTrip2))));
       }
 

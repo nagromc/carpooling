@@ -29,6 +29,7 @@ public class TripDtoAdapter {
       .collect(Collectors.toSet());
 
     return new TripDto(
+      trip.date().toString(),
       driverId,
       passengersId
     );

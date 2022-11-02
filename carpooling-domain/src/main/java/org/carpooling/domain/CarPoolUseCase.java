@@ -1,5 +1,6 @@
 package org.carpooling.domain;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 public class CarPoolUseCase {
@@ -10,11 +11,11 @@ public class CarPoolUseCase {
     this.tripRepository = tripRepository;
   }
 
-  public void execute(Carpooler driver, Set<Carpooler> passengers) {
+  public void execute(LocalDate date, Carpooler driver, Set<Carpooler> passengers) {
     if (passengers == null || passengers.isEmpty())
       return;
 
-    tripRepository.add(new Trip(driver, passengers));
+    tripRepository.add(new Trip(date, driver, passengers));
   }
 
 }

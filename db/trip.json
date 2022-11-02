@@ -1,5 +1,6 @@
 [
   {
+    "date": "2015-10-21",
     "driver": "alice",
     "passengers": [
       "bob",
@@ -7,6 +8,7 @@
     ]
   },
   {
+    "date": "2015-10-22",
     "driver": "bob",
     "passengers": [
       "alice"

@@ -3,6 +3,7 @@ package org.carpooling.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -15,13 +16,15 @@ public class ListTripsUseCaseTest {
   public static final Carpooler ALICE = new Carpooler("alice");
   public static final Carpooler BOB = new Carpooler("bob");
   public static final Carpooler CHARLIE = new Carpooler("charlie");
+  private static final LocalDate DAY1 = LocalDate.parse("2015-10-21");
+  private static final LocalDate DAY2 = LocalDate.parse("2015-10-22");
   private ListTripsUseCase listTripsUseCase;
 
   @BeforeEach
   void setUp() {
     InMemoryTripRepository tripRepository = new InMemoryTripRepository();
-    tripRepository.add(new Trip(ALICE, Set.of(BOB, CHARLIE)));
-    tripRepository.add(new Trip(BOB, Set.of(ALICE)));
+    tripRepository.add(new Trip(DAY1, ALICE, Set.of(BOB, CHARLIE)));
+    tripRepository.add(new Trip(DAY2, BOB, Set.of(ALICE)));
     listTripsUseCase = new ListTripsUseCase(tripRepository);
   }
 
@@ -31,8 +34,8 @@ public class ListTripsUseCaseTest {
 
     assertThat(result.size(), is(2));
     assertThat(result, containsInAnyOrder(
-      new Trip(ALICE, Set.of(BOB, CHARLIE)),
-      new Trip(BOB, Set.of(ALICE))
+      new Trip(DAY1, ALICE, Set.of(BOB, CHARLIE)),
+      new Trip(DAY2, BOB, Set.of(ALICE))
     ));
   }
 

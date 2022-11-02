@@ -3,6 +3,7 @@ package org.carpooling.domain;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java8.En;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class CarpoolingStepdefs implements En {
       List<InitialTrip> initialTrips = initialTripsDataTable.asList(InitialTrip.class);
       initialTrips.forEach(
         initialTrip -> IntStream.range(0, initialTrip.nbOfTrips).forEach(
-          i -> tripRepository.add(new Trip(initialTrip.driver, Set.of(initialTrip.passenger)))
+          i -> tripRepository.add(new Trip(initialTrip.date, initialTrip.driver, Set.of(initialTrip.passenger)))
         )
       );
     });
@@ -42,19 +43,21 @@ public class CarpoolingStepdefs implements En {
       carpoolersCredits = countCreditsUseCase.execute()
     );
 
-    When("{string} drives alone", (String driverId) -> {
+    When("{string} drives on {string} alone", (String driverId, String dateString) -> {
       Carpooler driver = carpoolerRepository.findById(driverId);
+      LocalDate date = LocalDate.parse(dateString);
 
-      carPoolUseCase.execute(driver, Collections.emptySet());
+      carPoolUseCase.execute(date, driver, Collections.emptySet());
     });
 
-    When("{string} drives with:", (String driverId, DataTable passengersIdsDataTable) -> {
+    When("{string} drives on {string} with:", (String driverId, String dateString, DataTable passengersIdsDataTable) -> {
       Carpooler driver = carpoolerRepository.findById(driverId);
+      LocalDate date = LocalDate.parse(dateString);
       Set<Carpooler> passengers = passengersIdsDataTable.asList().stream()
         .map(carpoolerRepository::findById)
         .collect(Collectors.toSet());
 
-      carPoolUseCase.execute(driver, passengers);
+      carPoolUseCase.execute(date, driver, passengers);
     });
 
     Then("the credits should be:", (DataTable expectedCreditsDataTable) -> {
@@ -66,6 +69,7 @@ public class CarpoolingStepdefs implements En {
     });
 
     DataTableType((Map<String, String> row) -> new InitialTrip(
+      LocalDate.parse(row.get("date")),
       findCarpoolerOrCreate(row.get("driver")),
       Integer.parseInt(row.get("nbOfTrips")),
       findCarpoolerOrCreate(row.get("passenger"))
@@ -88,7 +92,7 @@ public class CarpoolingStepdefs implements En {
   }
 
 
-  private record InitialTrip(Carpooler driver, Integer nbOfTrips, Carpooler passenger) {
+  private record InitialTrip(LocalDate date, Carpooler driver, Integer nbOfTrips, Carpooler passenger) {
 
   }
 

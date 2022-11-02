@@ -6,10 +6,12 @@ import org.carpooling.domain.Carpooler;
 import org.carpooling.domain.Trip;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -24,6 +26,7 @@ public class TripDtoAdapterTest {
   @Test
   void givenTrip_shouldConvert() {
     Trip domainTrip = new Trip(
+      LocalDate.parse("2015-10-21"),
       new Carpooler("alice"),
       Set.of(new Carpooler("bob"), new Carpooler("charlie"))
     );
@@ -31,6 +34,7 @@ public class TripDtoAdapterTest {
 
     TripDto result = adapter.convert();
 
+    assertThat(result.date, is("2015-10-21"));
     assertEquals("alice", result.driverId);
     assertThat(result.passengersId, contains("bob", "charlie"));
   }

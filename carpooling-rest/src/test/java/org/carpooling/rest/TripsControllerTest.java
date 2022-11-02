@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(TripsController.class)
 @AutoConfigureMockMvc
 public class TripsControllerTest {
+
+  private static final LocalDate DAY1 = LocalDate.parse("2015-10-21");
+  private static final LocalDate DAY2 = LocalDate.parse("2015-10-22");
 
   @Autowired
   private MockMvc mockMvc;
@@ -42,8 +46,8 @@ public class TripsControllerTest {
   @Test
   void shouldReturnAllTrips() throws Exception {
     List<Trip> initialTrips = List.of(
-      new Trip(ALICE, Set.of(BOB, CHARLIE)),
-      new Trip(BOB, Set.of(ALICE))
+      new Trip(DAY1, ALICE, Set.of(BOB, CHARLIE)),
+      new Trip(DAY2, BOB, Set.of(ALICE))
     );
     when(listTripsUseCase.execute()).thenReturn(initialTrips);
 
@@ -52,10 +56,16 @@ public class TripsControllerTest {
       .andExpect(content().json(
         """
         [
-          {"driver":"alice",
-            "passengers":["bob", "charlie"]},
-          {"driver":"bob",
-            "passengers":["alice"]}
+          {
+            "date": "2015-10-21",
+            "driver":"alice",
+            "passengers":["bob", "charlie"]
+          },
+          {
+            "date": "2015-10-22",
+            "driver":"bob",
+            "passengers":["alice"]
+          }
         ]"""
       ));
   }
@@ -67,6 +77,7 @@ public class TripsControllerTest {
           .contentType(MediaType.APPLICATION_JSON)
           .content("""
             {
+              "date": "2015-10-21",
               "driver": "charlie",
               "passengers": ["bob"]
             }
@@ -75,6 +86,7 @@ public class TripsControllerTest {
       .andExpect(status().isOk());
 
     verify(carPoolUseCase).execute(
+      LocalDate.parse("2015-10-21"),
       CHARLIE,
       Set.of(BOB)
     );

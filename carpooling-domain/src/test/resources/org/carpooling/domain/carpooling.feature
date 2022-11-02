@@ -3,9 +3,9 @@ Feature: Carpooling
 
   Scenario: A driver driving alone does not owe a trip
     Given the following trips:
-      | driver | nbOfTrips | passenger |
-      | alice  | 1         | bob       |
-    When "alice" drives alone
+      | date       | driver | nbOfTrips | passenger |
+      | 2015-10-21 | alice  | 1         | bob       |
+    When "alice" drives on "2015-10-22" alone
     And the credits are counted
     Then the credits should be:
       | carpooler | credit |
@@ -14,9 +14,9 @@ Feature: Carpooling
 
   Scenario: A passenger who shares a ride owes a trip to the driver
     Given the following trips:
-      | driver | nbOfTrips | passenger |
-      | bob    | 1         | alice     |
-    When "bob" drives with:
+      | date       | driver | nbOfTrips | passenger |
+      | 2015-10-21 | bob    | 1         | alice     |
+    When "bob" drives on "2015-10-22" with:
       | alice |
     And the credits are counted
     Then the credits should be:
@@ -26,11 +26,11 @@ Feature: Carpooling
 
   Scenario: A former passenger who rides back with a former driver doesn't change the number of owed trips
     Given the following trips:
-      | driver | nbOfTrips | passenger |
-      | alice  | 1         | bob       |
-    When "alice" drives with:
+      | date       | driver | nbOfTrips | passenger |
+      | 2015-10-21 | alice  | 1         | bob       |
+    When "alice" drives on "2015-10-22" with:
       | bob |
-    And "bob" drives with:
+    And "bob" drives on "2015-10-23" with:
       | alice |
     And the credits are counted
     Then the credits should be:
@@ -40,10 +40,10 @@ Feature: Carpooling
 
   Scenario: Two passengers who share a ride owes a trip each to the driver
     Given the following trips:
-      | driver | nbOfTrips | passenger |
-      | alice  | 1         | bob       |
-      | alice  | 2         | charlie   |
-    When "alice" drives with:
+      | date       | driver | nbOfTrips | passenger |
+      | 2015-10-21 | alice  | 1         | bob       |
+      | 2015-10-22 | alice  | 2         | charlie   |
+    When "alice" drives on "2015-10-23" with:
       | bob     |
       | charlie |
     And the credits are counted
@@ -55,10 +55,10 @@ Feature: Carpooling
 
   Scenario: A passenger doesn't owe a trip if not sharing a trip
     Given the following trips:
-      | driver | nbOfTrips | passenger |
-      | alice  | 1         | bob       |
-      | alice  | 0         | charlie   |
-    When "alice" drives with:
+      | date       | driver | nbOfTrips | passenger |
+      | 2015-10-21 | alice  | 1         | bob       |
+      | 2015-10-22 | alice  | 0         | charlie   |
+    When "alice" drives on "2015-10-23" with:
       | charlie |
     And the credits are counted
     Then the credits should be:
@@ -69,17 +69,17 @@ Feature: Carpooling
 
   Scenario: Three persons who drives together successively doesn't change the number of owed trips
     Given the following trips:
-      | driver  | nbOfTrips | passenger |
-      | alice   | 1         | bob       |
-      | bob     | 2         | charlie   |
-      | charlie | 3         | alice     |
-    When "alice" drives with:
+      | date       | driver  | nbOfTrips | passenger |
+      | 2015-10-21 | alice   | 1         | bob       |
+      | 2015-10-22 | bob     | 2         | charlie   |
+      | 2015-10-23 | charlie | 3         | alice     |
+    When "alice" drives on "2015-10-24" with:
       | bob     |
       | charlie |
-    And "bob" drives with:
+    And "bob" drives on "2015-10-25" with:
       | charlie |
       | alice   |
-    And "charlie" drives with:
+    And "charlie" drives on "2015-10-26" with:
       | alice |
       | bob   |
     And the credits are counted
