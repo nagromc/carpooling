@@ -3,11 +3,9 @@ package org.carpooling.database.json.adapter;
 import org.carpooling.database.json.FileDatabaseException;
 import org.carpooling.database.json.dto.CarpoolerDto;
 import org.carpooling.database.json.dto.TripDto;
-import org.carpooling.domain.Carpooler;
 import org.carpooling.domain.Trip;
 
 import java.time.LocalDate;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TripAdapter {
@@ -25,14 +23,14 @@ public class TripAdapter {
   }
 
   public Trip convert() {
-    CarpoolerDto driverDto = new CarpoolerDto(tripDto.driverId);
+    var driverDto = new CarpoolerDto(tripDto.driverId);
 
-    LocalDate date = LocalDate.parse(tripDto.date);
-    Carpooler driver = new CarpoolerAdapter(driverDto).convert();
+    var date = LocalDate.parse(tripDto.date);
+    var driver = new CarpoolerAdapter(driverDto).convert();
 
-    Set<Carpooler> passengers = tripDto.passengersId.stream()
+    var passengers = tripDto.passengersId.stream()
       .map(id -> {
-        CarpoolerDto passengerDto = new CarpoolerDto(id);
+        var passengerDto = new CarpoolerDto(id);
         return new CarpoolerAdapter(passengerDto).convert();
       })
       .collect(Collectors.toSet());

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,7 +19,7 @@ public class ListTripsUseCaseTest {
 
   @BeforeEach
   void setUp() {
-    InMemoryTripRepository tripRepository = new InMemoryTripRepository();
+    var tripRepository = new InMemoryTripRepository();
     tripRepository.add(new Trip(DAY1, ALICE, Set.of(BOB, CHARLIE)));
     tripRepository.add(new Trip(DAY2, BOB, Set.of(ALICE)));
     listTripsUseCase = new ListTripsUseCase(tripRepository);
@@ -28,7 +27,7 @@ public class ListTripsUseCaseTest {
 
   @Test
   void shouldReturnAllTrips() {
-    List<Trip> result = listTripsUseCase.execute();
+    var result = listTripsUseCase.execute();
 
     assertThat(result)
       .hasSize(2)

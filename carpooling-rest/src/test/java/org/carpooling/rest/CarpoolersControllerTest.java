@@ -31,7 +31,7 @@ public class CarpoolersControllerTest {
 
   @Test
   void shouldReturnCarpoolers() throws Exception {
-    Set<Carpooler> carpoolers = Set.of(ALICE, BOB);
+    var carpoolers = Set.of(ALICE, BOB);
     when(listCarpoolersUseCase.execute()).thenReturn(carpoolers);
 
     mockMvc.perform(get("/carpoolers"))

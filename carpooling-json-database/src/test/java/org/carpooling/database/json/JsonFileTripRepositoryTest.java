@@ -41,7 +41,7 @@ class JsonFileTripRepositoryTest {
 
   @Test
   void givenNull_shouldThrowException() throws FileDatabaseNotFoundException {
-    JsonFileTripRepository repository = new JsonFileTripRepository(file);
+    var repository = new JsonFileTripRepository(file);
 
     assertThatExceptionOfType(FileDatabaseException.class)
       .isThrownBy(() -> repository.add(null))
@@ -53,9 +53,9 @@ class JsonFileTripRepositoryTest {
 
     @BeforeEach
     void setUp() throws IOException {
-      String initialContent = "";
+      var initialContent = "";
 
-      FileWriter writer = new FileWriter(file);
+      var writer = new FileWriter(file);
       writer.write(initialContent);
       writer.close();
     }
@@ -64,13 +64,13 @@ class JsonFileTripRepositoryTest {
     class AddTest {
       @Test
       void givenTrip_shouldSave() throws FileDatabaseNotFoundException {
-        JsonFileTripRepository repository = new JsonFileTripRepository(file);
+        var repository = new JsonFileTripRepository(file);
 
         repository.add(new Trip(DAY1, ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
 
-        List<Trip> trips = repository.findAll();
+        var trips = repository.findAll();
         assertThat(trips).isNotNull().hasSize(1);
-        Trip onlyTrip = trips.get(0);
+        var onlyTrip = trips.get(0);
         assertThat(onlyTrip.date()).isEqualTo(DAY1);
         assertThat(onlyTrip.driver()).isEqualTo(ALICE_CARPOOLER);
         assertThat(onlyTrip.passengers()).isEqualTo(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
@@ -78,26 +78,26 @@ class JsonFileTripRepositoryTest {
 
       @Test
       void givenThreeTrips_shouldSave() throws FileDatabaseNotFoundException {
-        JsonFileTripRepository repository = new JsonFileTripRepository(file);
+        var repository = new JsonFileTripRepository(file);
 
         repository.add(new Trip(DAY1, ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
         repository.add(new Trip(DAY2, BOB_CARPOOLER, Set.of(DAVID_CARPOOLER)));
         repository.add(new Trip(DAY3, DAVID_CARPOOLER, Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER)));
 
-        List<Trip> trips = repository.findAll();
+        var trips = repository.findAll();
         assertThat(trips).isNotNull().hasSize(3);
 
-        Trip trip1 = trips.get(0);
+        var trip1 = trips.get(0);
         assertThat(trip1.date()).isEqualTo(DAY1);
         assertThat(trip1.driver()).isEqualTo(ALICE_CARPOOLER);
         assertThat(trip1.passengers()).containsExactlyInAnyOrder(BOB_CARPOOLER, CHARLIE_CARPOOLER);
 
-        Trip trip2 = trips.get(1);
+        var trip2 = trips.get(1);
         assertThat(trip2.date()).isEqualTo(DAY2);
         assertThat(trip2.driver()).isEqualTo(BOB_CARPOOLER);
         assertThat(trip2.passengers()).containsExactlyInAnyOrder(DAVID_CARPOOLER);
 
-        Trip trip3 = trips.get(2);
+        var trip3 = trips.get(2);
         assertThat(trip3.date()).isEqualTo(DAY3);
         assertThat(trip3.driver()).isEqualTo(DAVID_CARPOOLER);
         assertThat(trip3.passengers()).containsExactlyInAnyOrder(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER);
@@ -108,9 +108,9 @@ class JsonFileTripRepositoryTest {
     class FindAllTest {
       @Test
       void givenDatabaseIsEmpty_shouldReturnEmptyList() throws FileDatabaseNotFoundException {
-        JsonFileTripRepository repository = new JsonFileTripRepository(file);
+        var repository = new JsonFileTripRepository(file);
 
-        List<Trip> allTrips = repository.findAll();
+        var allTrips = repository.findAll();
 
         assertThat(allTrips).isNotNull().isEmpty();
       }
@@ -123,7 +123,7 @@ class JsonFileTripRepositoryTest {
 
     @BeforeEach
     void setUp() throws IOException {
-      String initialContent = """
+      var initialContent = """
         [
           {
             "date": "2015-10-21",
@@ -143,7 +143,7 @@ class JsonFileTripRepositoryTest {
           }
         ]""";
 
-      FileWriter writer = new FileWriter(file);
+      var writer = new FileWriter(file);
       writer.write(initialContent);
       writer.close();
     }
@@ -153,12 +153,12 @@ class JsonFileTripRepositoryTest {
 
       @Test
       void shouldReturnAllTrips() throws FileDatabaseNotFoundException {
-        JsonFileTripRepository repository = new JsonFileTripRepository(file);
+        var repository = new JsonFileTripRepository(file);
 
-        List<Trip> allTrips = repository.findAll();
+        var allTrips = repository.findAll();
 
-        Trip expectedTrip1 = new Trip(DAY1, ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
-        Trip expectedTrip2 = new Trip(DAY2, BOB_CARPOOLER, Set.of(ALICE_CARPOOLER, CHARLIE_CARPOOLER));
+        var expectedTrip1 = new Trip(DAY1, ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
+        var expectedTrip2 = new Trip(DAY2, BOB_CARPOOLER, Set.of(ALICE_CARPOOLER, CHARLIE_CARPOOLER));
         assertThat(allTrips).isEqualTo(List.of(expectedTrip1, expectedTrip2));
       }
 

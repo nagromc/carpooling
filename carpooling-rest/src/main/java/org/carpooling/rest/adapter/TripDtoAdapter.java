@@ -4,7 +4,6 @@ import org.carpooling.domain.Carpooler;
 import org.carpooling.domain.Trip;
 import org.carpooling.rest.dto.TripDto;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TripDtoAdapter {
@@ -22,7 +21,7 @@ public class TripDtoAdapter {
   }
 
   public TripDto convert() {
-    Set<String> passengersId = trip.passengers().stream()
+    var passengersId = trip.passengers().stream()
       .map(Carpooler::id)
       .collect(Collectors.toSet());
 

@@ -4,7 +4,6 @@ import org.carpooling.database.json.FileDatabaseException;
 import org.carpooling.database.json.dto.TripDto;
 import org.carpooling.domain.Trip;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TripDtoAdapter {
@@ -22,9 +21,9 @@ public class TripDtoAdapter {
   }
 
   public TripDto convert() {
-    String driverId = new CarpoolerDtoAdapter(trip.driver()).convert().id;
+    var driverId = new CarpoolerDtoAdapter(trip.driver()).convert().id;
 
-    Set<String> passengersId = trip.passengers().stream()
+    var passengersId = trip.passengers().stream()
       .map(carpooler -> new CarpoolerDtoAdapter(carpooler).convert().id)
       .collect(Collectors.toSet());
 

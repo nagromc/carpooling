@@ -28,15 +28,15 @@ public class JsonFileTripRepository implements TripRepository {
   public void add(Trip trip) {
     validateArgument(trip);
 
-    List<Trip> trips = findAll();
+    var trips = findAll();
 
     trips.add(trip);
 
-    List<TripDto> tripDtos = trips.stream()
+    var tripDtos = trips.stream()
       .map(t -> new TripDtoAdapter(t).convert())
       .toList();
 
-    String content = gson.toJson(tripDtos);
+    var content = gson.toJson(tripDtos);
     fileManager.write(content);
   }
 
@@ -46,8 +46,8 @@ public class JsonFileTripRepository implements TripRepository {
 
   @Override
   public List<Trip> findAll() {
-    String content = fileManager.read();
-    TripDto[] tripDtos = gson.fromJson(content, TripDto[].class);
+    var content = fileManager.read();
+    var tripDtos = gson.fromJson(content, TripDto[].class);
 
     if (tripDtos == null)
       return new ArrayList<>();

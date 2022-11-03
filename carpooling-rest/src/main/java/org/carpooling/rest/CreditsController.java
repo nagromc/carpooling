@@ -1,6 +1,5 @@
 package org.carpooling.rest;
 
-import org.carpooling.domain.Carpooler;
 import org.carpooling.domain.CountCreditsUseCase;
 import org.carpooling.rest.adapter.CarpoolerDtoAdapter;
 import org.carpooling.rest.dto.CarpoolerDto;
@@ -23,7 +22,7 @@ public class CreditsController {
 
   @GetMapping
   public Map<CarpoolerDto, Float> all() {
-    Map<Carpooler, Float> credits = countCreditsUseCase.execute();
+    var credits = countCreditsUseCase.execute();
 
     return credits.entrySet().stream()
       .collect(

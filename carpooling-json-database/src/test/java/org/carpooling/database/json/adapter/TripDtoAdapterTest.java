@@ -1,7 +1,6 @@
 package org.carpooling.database.json.adapter;
 
 import org.carpooling.database.json.FileDatabaseException;
-import org.carpooling.database.json.dto.TripDto;
 import org.carpooling.domain.Carpooler;
 import org.carpooling.domain.Trip;
 import org.junit.jupiter.api.Test;
@@ -23,14 +22,14 @@ public class TripDtoAdapterTest {
 
   @Test
   void givenTrip_shouldConvert() {
-    Trip domainTrip = new Trip(
+    var domainTrip = new Trip(
       LocalDate.parse("2015-10-21"),
       new Carpooler("alice"),
       Set.of(new Carpooler("bob"), new Carpooler("charlie"))
     );
-    TripDtoAdapter adapter = new TripDtoAdapter(domainTrip);
+    var adapter = new TripDtoAdapter(domainTrip);
 
-    TripDto result = adapter.convert();
+    var result = adapter.convert();
 
     assertThat(result.date).isEqualTo("2015-10-21");
     assertThat(result.driverId).isEqualTo("alice");

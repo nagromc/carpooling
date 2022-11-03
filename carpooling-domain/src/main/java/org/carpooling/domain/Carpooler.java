@@ -16,7 +16,7 @@ public record Carpooler(String id, String displayName) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    Carpooler carpooler = (Carpooler) o;
+    var carpooler = (Carpooler) o;
 
     return id.equals(carpooler.id);
   }

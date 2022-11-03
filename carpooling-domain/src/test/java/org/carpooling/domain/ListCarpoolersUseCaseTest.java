@@ -3,8 +3,6 @@ package org.carpooling.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Set;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ListCarpoolersUseCaseTest {
@@ -22,7 +20,7 @@ public class ListCarpoolersUseCaseTest {
 
   @Test
   void givenNoCarpooler_shouldReturnEmptySet() {
-    Set<Carpooler> result = useCase.execute();
+    var result = useCase.execute();
 
     assertThat(result).isNotNull().isEmpty();
   }
@@ -32,7 +30,7 @@ public class ListCarpoolersUseCaseTest {
     carpoolerRepository.add(ALICE);
     carpoolerRepository.add(BOB);
 
-    Set<Carpooler> result = useCase.execute();
+    var result = useCase.execute();
 
     assertThat(result)
       .isNotNull()

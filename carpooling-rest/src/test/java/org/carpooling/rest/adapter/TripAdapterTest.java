@@ -1,7 +1,6 @@
 package org.carpooling.rest.adapter;
 
 import org.carpooling.domain.Carpooler;
-import org.carpooling.domain.Trip;
 import org.carpooling.rest.dto.TripDto;
 import org.junit.jupiter.api.Test;
 
@@ -22,9 +21,9 @@ class TripAdapterTest {
 
   @Test
   void shouldReturnTrip() {
-    TripDto tripDto = new TripDto(LocalDate.parse("2015-10-21"), "alice", Set.of("bob", "charlie"));
+    var tripDto = new TripDto(LocalDate.parse("2015-10-21"), "alice", Set.of("bob", "charlie"));
 
-    Trip result = new TripAdapter(tripDto).convert();
+    var result = new TripAdapter(tripDto).convert();
 
     assertThat(result.date()).isEqualTo(LocalDate.parse("2015-10-21"));
     assertThat(result.driver()).isEqualTo(new Carpooler("alice"));

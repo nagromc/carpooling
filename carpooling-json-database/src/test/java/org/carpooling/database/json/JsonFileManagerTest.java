@@ -41,20 +41,20 @@ class JsonFileManagerTest {
 
   @Test
   void shouldWrite() throws FileDatabaseNotFoundException, IOException {
-    JsonFileManager fileManager = new JsonFileManager(file);
+    var fileManager = new JsonFileManager(file);
 
     fileManager.write("foobar");
 
-    String result = Files.readString(file.toPath());
+    var result = Files.readString(file.toPath());
     assertThat(result).isEqualTo("foobar");
   }
 
   @Test
   void shouldRead() throws FileDatabaseNotFoundException, IOException {
-    JsonFileManager fileManager = new JsonFileManager(file);
+    var fileManager = new JsonFileManager(file);
     Files.writeString(file.toPath(), "foobar");
 
-    String result = fileManager.read();
+    var result = fileManager.read();
 
     assertThat(result).isEqualTo("foobar");
   }

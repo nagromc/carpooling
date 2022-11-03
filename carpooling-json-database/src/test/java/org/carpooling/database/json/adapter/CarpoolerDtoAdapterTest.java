@@ -2,7 +2,6 @@ package org.carpooling.database.json.adapter;
 
 import org.assertj.core.api.Assertions;
 import org.carpooling.database.json.FileDatabaseException;
-import org.carpooling.database.json.dto.CarpoolerDto;
 import org.carpooling.domain.Carpooler;
 import org.junit.jupiter.api.Test;
 
@@ -19,10 +18,10 @@ public class CarpoolerDtoAdapterTest {
 
   @Test
   void givenCarpooler_shouldConvert() {
-    Carpooler carpooler = new Carpooler("alice", "Alice");
-    CarpoolerDtoAdapter adapter = new CarpoolerDtoAdapter(carpooler);
+    var carpooler = new Carpooler("alice", "Alice");
+    var adapter = new CarpoolerDtoAdapter(carpooler);
 
-    CarpoolerDto result = adapter.convert();
+    var result = adapter.convert();
 
     assertThat(result.id).isEqualTo("alice");
     assertThat(result.displayName).isEqualTo("Alice");

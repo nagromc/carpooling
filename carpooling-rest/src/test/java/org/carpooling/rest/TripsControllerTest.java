@@ -45,7 +45,7 @@ public class TripsControllerTest {
 
   @Test
   void shouldReturnAllTrips() throws Exception {
-    List<Trip> initialTrips = List.of(
+    var initialTrips = List.of(
       new Trip(DAY1, ALICE, Set.of(BOB, CHARLIE)),
       new Trip(DAY2, BOB, Set.of(ALICE))
     );

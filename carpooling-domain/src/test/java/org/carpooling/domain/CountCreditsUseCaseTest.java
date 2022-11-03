@@ -16,7 +16,7 @@ class CountCreditsUseCaseTest {
     Map<Carpooler, Float> inconsistentCredits = new HashMap<>();
     inconsistentCredits.put(new Carpooler("alice"), 1.23f);
     inconsistentCredits.put(new Carpooler("bob"), 0f);
-    CountCreditsUseCase useCase = new CountCreditsUseCase(new InMemoryTripRepository(), inconsistentCredits);
+    var useCase = new CountCreditsUseCase(new InMemoryTripRepository(), inconsistentCredits);
 
     assertThatExceptionOfType(InconsistentCalculatedCreditsException.class)
       .isThrownBy(useCase::execute)

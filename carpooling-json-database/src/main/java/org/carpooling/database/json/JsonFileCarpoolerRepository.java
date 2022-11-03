@@ -28,17 +28,17 @@ public class JsonFileCarpoolerRepository implements CarpoolerRepository {
   public void add(Carpooler carpooler) {
     validateAddArguments(carpooler);
 
-    Set<Carpooler> carpoolers = findAll();
+    var carpoolers = findAll();
 
-    boolean foundExistingEntry = !carpoolers.add(carpooler);
+    var foundExistingEntry = !carpoolers.add(carpooler);
     if (foundExistingEntry)
       throw new IllegalArgumentException("Entry [%s] already exists".formatted(carpooler.id()));
 
-    Set<CarpoolerDto> dtos = carpoolers.stream()
+    var dtos = carpoolers.stream()
       .map(c -> new CarpoolerDtoAdapter(c).convert())
       .collect(Collectors.toSet());
 
-    String json = gson.toJson(dtos);
+    var json = gson.toJson(dtos);
     fileManager.write(json);
   }
 
@@ -55,7 +55,7 @@ public class JsonFileCarpoolerRepository implements CarpoolerRepository {
     if (id == null)
       throw new IllegalArgumentException("Carpooler cannot be null");
 
-    Optional<Carpooler> foundCarpooler = findCarpoolerById(id);
+    var foundCarpooler = findCarpoolerById(id);
 
     if (foundCarpooler.isEmpty())
       throw new FileDatabaseException("Carpooler [%s] not found".formatted(id));
@@ -64,7 +64,7 @@ public class JsonFileCarpoolerRepository implements CarpoolerRepository {
   }
 
   private Optional<Carpooler> findCarpoolerById(String id) {
-    Set<Carpooler> carpoolers = findAll();
+    var carpoolers = findAll();
 
     return carpoolers.stream()
       .filter(carpooler -> carpooler.id().equals(id))
@@ -73,8 +73,8 @@ public class JsonFileCarpoolerRepository implements CarpoolerRepository {
 
   @Override
   public Set<Carpooler> findAll() {
-    String content = fileManager.read();
-    CarpoolerDto[] dtos = gson.fromJson(content, CarpoolerDto[].class);
+    var content = fileManager.read();
+    var dtos = gson.fromJson(content, CarpoolerDto[].class);
 
     if (dtos == null)
       return new HashSet<>();
@@ -88,8 +88,8 @@ public class JsonFileCarpoolerRepository implements CarpoolerRepository {
   }
 
   private boolean areDuplicatedEntries(CarpoolerDto[] dtos) {
-    int numberOfEntries = dtos.length;
-    long numberOfUniqueEntries = Arrays.stream(dtos)
+    var numberOfEntries = dtos.length;
+    var numberOfUniqueEntries = Arrays.stream(dtos)
       .distinct()
       .count();
     return numberOfEntries != numberOfUniqueEntries;

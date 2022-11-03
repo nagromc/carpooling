@@ -2,7 +2,6 @@ package org.carpooling.rest;
 
 import org.carpooling.domain.CarPoolUseCase;
 import org.carpooling.domain.ListTripsUseCase;
-import org.carpooling.domain.Trip;
 import org.carpooling.rest.adapter.TripAdapter;
 import org.carpooling.rest.adapter.TripDtoAdapter;
 import org.carpooling.rest.dto.TripDto;
@@ -25,7 +24,7 @@ public class TripsController {
 
   @GetMapping
   public List<TripDto> all() {
-    List<Trip> trips = listTripsUseCase.execute();
+    var trips = listTripsUseCase.execute();
 
     return trips.stream()
       .map(trip -> new TripDtoAdapter(trip).convert())
@@ -34,7 +33,7 @@ public class TripsController {
 
   @PostMapping
   public void add(@RequestBody TripDto tripDto) {
-    Trip trip = new TripAdapter(tripDto).convert();
+    var trip = new TripAdapter(tripDto).convert();
 
     carPoolUseCase.execute(trip.date(), trip.driver(), trip.passengers());
   }

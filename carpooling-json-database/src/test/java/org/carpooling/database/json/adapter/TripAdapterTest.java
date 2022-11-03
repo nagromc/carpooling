@@ -3,7 +3,6 @@ package org.carpooling.database.json.adapter;
 import org.carpooling.database.json.FileDatabaseException;
 import org.carpooling.database.json.dto.TripDto;
 import org.carpooling.domain.Carpooler;
-import org.carpooling.domain.Trip;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -23,10 +22,10 @@ public class TripAdapterTest {
 
   @Test
   void givenTripDto_shouldReturnTrip() {
-    TripDto tripDto = new TripDto("2015-10-21", "alice", Set.of("bob", "charlie"));
-    TripAdapter adapter = new TripAdapter(tripDto);
+    var tripDto = new TripDto("2015-10-21", "alice", Set.of("bob", "charlie"));
+    var adapter = new TripAdapter(tripDto);
 
-    Trip result = adapter.convert();
+    var result = adapter.convert();
 
     assertThat(result.date()).isEqualTo(LocalDate.parse("2015-10-21"));
     assertThat(result.driver().id()).isEqualTo("alice");

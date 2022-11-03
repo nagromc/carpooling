@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -32,7 +31,7 @@ class JsonFileCarpoolerRepositoryTest {
 
   @Test
   void givenNull_whenAdd_shouldThrowException() throws FileDatabaseNotFoundException {
-    JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
+    var repository = new JsonFileCarpoolerRepository(file);
 
     assertThatExceptionOfType(IllegalArgumentException.class)
       .isThrownBy(() -> repository.add(null))
@@ -41,7 +40,7 @@ class JsonFileCarpoolerRepositoryTest {
 
   @Test
   void givenEmptyId_whenAdd_shouldThrowException() throws FileDatabaseNotFoundException {
-    JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
+    var repository = new JsonFileCarpoolerRepository(file);
 
     assertThatExceptionOfType(IllegalArgumentException.class)
       .isThrownBy(() -> repository.add(new Carpooler(null)))
@@ -56,7 +55,7 @@ class JsonFileCarpoolerRepositoryTest {
 
   @Test
   void givenNull_whenFindById_shouldThrowException() throws FileDatabaseNotFoundException {
-    JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
+    var repository = new JsonFileCarpoolerRepository(file);
 
     assertThatExceptionOfType(IllegalArgumentException.class)
       .isThrownBy(() -> repository.findById(null))
@@ -65,7 +64,7 @@ class JsonFileCarpoolerRepositoryTest {
 
   @Test
   void givenNonExistingCarpooler_whenFindById_shouldThrowException() throws FileDatabaseNotFoundException {
-    JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
+    var repository = new JsonFileCarpoolerRepository(file);
 
     assertThatExceptionOfType(FileDatabaseException.class)
       .isThrownBy(() -> repository.findById("foobar"))
@@ -77,9 +76,9 @@ class JsonFileCarpoolerRepositoryTest {
 
     @BeforeEach
     void setUp() throws IOException {
-      String initialContent = "";
+      var initialContent = "";
 
-      FileWriter writer = new FileWriter(file);
+      var writer = new FileWriter(file);
       writer.write(initialContent);
       writer.close();
     }
@@ -88,11 +87,11 @@ class JsonFileCarpoolerRepositoryTest {
     class AddTest {
       @Test
       void givenCarpooler_shouldWrite() throws FileDatabaseNotFoundException {
-        JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
+        var repository = new JsonFileCarpoolerRepository(file);
 
         repository.add(new Carpooler("alice"));
 
-        Set<Carpooler> carpoolers = repository.findAll();
+        var carpoolers = repository.findAll();
         assertThat(carpoolers)
           .hasSize(1)
           .map(Carpooler::id)
@@ -104,8 +103,8 @@ class JsonFileCarpoolerRepositoryTest {
     class FindAllTest {
       @Test
       void shouldReturnEmptySet() throws FileDatabaseNotFoundException {
-        JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
-        Set<Carpooler> result = repository.findAll();
+        var repository = new JsonFileCarpoolerRepository(file);
+        var result = repository.findAll();
 
         assertThat(result).isNotNull().isEmpty();
       }
@@ -118,14 +117,14 @@ class JsonFileCarpoolerRepositoryTest {
 
     @BeforeEach
     void setUp() throws IOException {
-      String initialContent = """
+      var initialContent = """
         [
           {"id": "alice"},
           {"id": "bob"},
           {"id": "charlie"}
         ]""";
 
-      FileWriter writer = new FileWriter(file);
+      var writer = new FileWriter(file);
       writer.write(initialContent);
       writer.close();
     }
@@ -134,7 +133,7 @@ class JsonFileCarpoolerRepositoryTest {
     class AddTest {
       @Test
       void givenExistingCarpooler_shouldThrowException() throws FileDatabaseNotFoundException {
-        JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
+        var repository = new JsonFileCarpoolerRepository(file);
 
         assertThatExceptionOfType(IllegalArgumentException.class)
           .isThrownBy(() -> repository.add(new Carpooler("alice")))
@@ -146,9 +145,9 @@ class JsonFileCarpoolerRepositoryTest {
     class FindByIdTest {
       @Test
       void givenExistingCarpooler_shouldReturnCarpooler() throws FileDatabaseNotFoundException {
-        JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
+        var repository = new JsonFileCarpoolerRepository(file);
 
-        Carpooler result = repository.findById("alice");
+        var result = repository.findById("alice");
 
         assertThat(result).isEqualTo(new Carpooler("alice"));
       }
@@ -158,8 +157,8 @@ class JsonFileCarpoolerRepositoryTest {
     class FindAllTest {
       @Test
       void shouldReturnAllCarpoolers() throws FileDatabaseNotFoundException {
-        JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
-        Set<Carpooler> result = repository.findAll();
+        var repository = new JsonFileCarpoolerRepository(file);
+        var result = repository.findAll();
 
         assertThat(result)
           .hasSize(3)
@@ -175,7 +174,7 @@ class JsonFileCarpoolerRepositoryTest {
 
     @BeforeEach
     void setUp() throws IOException {
-      String initialContent = """
+      var initialContent = """
         [
           {"id": "alice"},
           {"id": "alice"},
@@ -183,7 +182,7 @@ class JsonFileCarpoolerRepositoryTest {
           {"id": "charlie"}
         ]""";
 
-      FileWriter writer = new FileWriter(file);
+      var writer = new FileWriter(file);
       writer.write(initialContent);
       writer.close();
     }
@@ -192,7 +191,7 @@ class JsonFileCarpoolerRepositoryTest {
     class FindByIdTest {
       @Test
       void givenTwoOrMoreMatches_shouldThrowException() throws FileDatabaseNotFoundException {
-        JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
+        var repository = new JsonFileCarpoolerRepository(file);
 
         assertThatExceptionOfType(FileDatabaseException.class)
           .isThrownBy(() -> repository.findById("alice"))
@@ -204,7 +203,7 @@ class JsonFileCarpoolerRepositoryTest {
     class FindAllTest {
       @Test
       void givenTwoOrMoreMatches_shouldThrowException() throws FileDatabaseNotFoundException {
-        JsonFileCarpoolerRepository repository = new JsonFileCarpoolerRepository(file);
+        var repository = new JsonFileCarpoolerRepository(file);
 
         assertThatExceptionOfType(FileDatabaseException.class)
           .isThrownBy(repository::findAll)

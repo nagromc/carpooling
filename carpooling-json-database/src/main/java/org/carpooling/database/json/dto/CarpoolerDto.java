@@ -21,7 +21,7 @@ public final class CarpoolerDto {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    CarpoolerDto that = (CarpoolerDto) o;
+    var that = (CarpoolerDto) o;
     return Objects.equals(id, that.id);
   }
 

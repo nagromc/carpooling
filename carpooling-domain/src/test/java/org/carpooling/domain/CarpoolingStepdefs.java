@@ -44,16 +44,16 @@ public class CarpoolingStepdefs implements En {
     );
 
     When("{string} drives on {string} alone", (String driverId, String dateString) -> {
-      Carpooler driver = carpoolerRepository.findById(driverId);
-      LocalDate date = LocalDate.parse(dateString);
+      var driver = carpoolerRepository.findById(driverId);
+      var date = LocalDate.parse(dateString);
 
       carPoolUseCase.execute(date, driver, Collections.emptySet());
     });
 
     When("{string} drives on {string} with:", (String driverId, String dateString, DataTable passengersIdsDataTable) -> {
-      Carpooler driver = carpoolerRepository.findById(driverId);
-      LocalDate date = LocalDate.parse(dateString);
-      Set<Carpooler> passengers = passengersIdsDataTable.asList().stream()
+      var driver = carpoolerRepository.findById(driverId);
+      var date = LocalDate.parse(dateString);
+      var passengers = passengersIdsDataTable.asList().stream()
         .map(carpoolerRepository::findById)
         .collect(Collectors.toSet());
 
@@ -63,7 +63,7 @@ public class CarpoolingStepdefs implements En {
     Then("the credits should be:", (DataTable expectedCreditsDataTable) -> {
       List<Credit> expectedCredits = expectedCreditsDataTable.asList(Credit.class);
       expectedCredits.forEach(expectedCredit -> {
-        Float actualCredit = carpoolersCredits.get(expectedCredit.carpooler());
+        var actualCredit = carpoolersCredits.get(expectedCredit.carpooler());
         assertEquals(expectedCredit.value(), actualCredit, 0.001);
       });
     });
@@ -83,7 +83,7 @@ public class CarpoolingStepdefs implements En {
   }
 
   private Carpooler findCarpoolerOrCreate(String carpoolerId) {
-    Carpooler carpooler = carpoolerRepository.findById(carpoolerId);
+    var carpooler = carpoolerRepository.findById(carpoolerId);
     if (carpooler == null) {
       carpooler = new Carpooler(carpoolerId);
       carpoolerRepository.add(carpooler);

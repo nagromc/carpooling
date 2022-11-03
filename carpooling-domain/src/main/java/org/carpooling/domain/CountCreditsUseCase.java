@@ -1,9 +1,7 @@
 package org.carpooling.domain;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class CountCreditsUseCase {
 
@@ -20,15 +18,15 @@ public class CountCreditsUseCase {
   }
 
   public Map<Carpooler, Float> execute() {
-    List<Trip> trips = tripRepository.findAll();
+    var trips = tripRepository.findAll();
     trips.forEach(this::updateCreditsForTrip);
     validateCreditsSanityCheck();
     return credits;
   }
 
   private void updateCreditsForTrip(Trip trip) {
-    Carpooler driver = trip.driver();
-    Set<Carpooler> passengers = trip.passengers();
+    var driver = trip.driver();
+    var passengers = trip.passengers();
 
     if (passengers.isEmpty())
       return;
@@ -58,7 +56,7 @@ public class CountCreditsUseCase {
   }
 
   private float calculateCarpoolerCredits(Trip trip, Carpooler carpooler) {
-    Float currentCarpoolerCredits = credits.getOrDefault(carpooler, 0f);
+    var currentCarpoolerCredits = credits.getOrDefault(carpooler, 0f);
     return calculateCarpoolerCredits(currentCarpoolerCredits, trip.numberOfCarpoolers());
   }
 
@@ -67,7 +65,7 @@ public class CountCreditsUseCase {
   }
 
   private void validateCreditsSanityCheck() {
-    double sum = credits.values().stream()
+    var sum = credits.values().stream()
       .mapToDouble(Float::doubleValue)
       .sum();
 
