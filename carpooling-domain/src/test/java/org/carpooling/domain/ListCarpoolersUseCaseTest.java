@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ListCarpoolersUseCaseTest {
 
@@ -25,8 +24,7 @@ public class ListCarpoolersUseCaseTest {
   void givenNoCarpooler_shouldReturnEmptySet() {
     Set<Carpooler> result = useCase.execute();
 
-    assertThat(result, is(not(nullValue())));
-    assertThat(result.size(), is(0));
+    assertThat(result).isNotNull().isEmpty();
   }
 
   @Test
@@ -36,9 +34,10 @@ public class ListCarpoolersUseCaseTest {
 
     Set<Carpooler> result = useCase.execute();
 
-    assertThat(result, is(not(nullValue())));
-    assertThat(result.size(), is(2));
-    assertThat(result, containsInAnyOrder(ALICE, BOB));
+    assertThat(result)
+      .isNotNull()
+      .hasSize(2)
+      .containsExactlyInAnyOrder(ALICE, BOB);
   }
 
 }

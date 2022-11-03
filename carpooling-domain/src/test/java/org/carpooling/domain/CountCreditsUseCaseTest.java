@@ -5,10 +5,9 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.closeTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.withinPercentage;
+import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
 
 class CountCreditsUseCaseTest {
 
@@ -19,9 +18,11 @@ class CountCreditsUseCaseTest {
     inconsistentCredits.put(new Carpooler("bob"), 0f);
     CountCreditsUseCase useCase = new CountCreditsUseCase(new InMemoryTripRepository(), inconsistentCredits);
 
-    InconsistentCalculatedCreditsException exception = assertThrows(InconsistentCalculatedCreditsException.class, useCase::execute);
-    assertThat(exception.getMessage(), is("The sum of all credits should be 0, but was [1.230000]"));
-    assertThat(exception.getCalculatedSum(), closeTo(1.23f, 0.01));
+    assertThatExceptionOfType(InconsistentCalculatedCreditsException.class)
+      .isThrownBy(useCase::execute)
+      .withMessage("The sum of all credits should be 0, but was [1.230000]")
+      .extracting(InconsistentCalculatedCreditsException::getCalculatedSum, DOUBLE)
+      .isCloseTo(1.23f, withinPercentage(0.01));
   }
 
 }

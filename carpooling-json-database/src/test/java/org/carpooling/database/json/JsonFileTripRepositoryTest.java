@@ -14,10 +14,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class JsonFileTripRepositoryTest {
 
@@ -45,8 +43,9 @@ class JsonFileTripRepositoryTest {
   void givenNull_shouldThrowException() throws FileDatabaseNotFoundException {
     JsonFileTripRepository repository = new JsonFileTripRepository(file);
 
-    FileDatabaseException exception = assertThrows(FileDatabaseException.class, () -> repository.add(null));
-    assertThat(exception.getMessage(), is("Cannot save null trip"));
+    assertThatExceptionOfType(FileDatabaseException.class)
+      .isThrownBy(() -> repository.add(null))
+      .withMessage("Cannot save null trip");
   }
 
   @Nested
@@ -70,10 +69,11 @@ class JsonFileTripRepositoryTest {
         repository.add(new Trip(DAY1, ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
 
         List<Trip> trips = repository.findAll();
-        assertThat(trips.size(), is(1));
-        assertThat(trips.get(0).date(), is(DAY1));
-        assertThat(trips.get(0).driver(), is(ALICE_CARPOOLER));
-        assertThat(trips.get(0).passengers(), is(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
+        assertThat(trips).isNotNull().hasSize(1);
+        Trip onlyTrip = trips.get(0);
+        assertThat(onlyTrip.date()).isEqualTo(DAY1);
+        assertThat(onlyTrip.driver()).isEqualTo(ALICE_CARPOOLER);
+        assertThat(onlyTrip.passengers()).isEqualTo(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
       }
 
       @Test
@@ -85,22 +85,22 @@ class JsonFileTripRepositoryTest {
         repository.add(new Trip(DAY3, DAVID_CARPOOLER, Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER)));
 
         List<Trip> trips = repository.findAll();
-        assertThat(trips.size(), is(3));
+        assertThat(trips).isNotNull().hasSize(3);
 
         Trip trip1 = trips.get(0);
-        assertThat(trip1.date(), is(DAY1));
-        assertThat(trip1.driver(), is(ALICE_CARPOOLER));
-        assertThat(trip1.passengers(), is(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER)));
+        assertThat(trip1.date()).isEqualTo(DAY1);
+        assertThat(trip1.driver()).isEqualTo(ALICE_CARPOOLER);
+        assertThat(trip1.passengers()).containsExactlyInAnyOrder(BOB_CARPOOLER, CHARLIE_CARPOOLER);
 
         Trip trip2 = trips.get(1);
-        assertThat(trip2.date(), is(DAY2));
-        assertThat(trip2.driver(), is(BOB_CARPOOLER));
-        assertThat(trip2.passengers(), is(Set.of(DAVID_CARPOOLER)));
+        assertThat(trip2.date()).isEqualTo(DAY2);
+        assertThat(trip2.driver()).isEqualTo(BOB_CARPOOLER);
+        assertThat(trip2.passengers()).containsExactlyInAnyOrder(DAVID_CARPOOLER);
 
         Trip trip3 = trips.get(2);
-        assertThat(trip3.date(), is(DAY3));
-        assertThat(trip3.driver(), is(DAVID_CARPOOLER));
-        assertThat(trip3.passengers(), is(Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER)));
+        assertThat(trip3.date()).isEqualTo(DAY3);
+        assertThat(trip3.driver()).isEqualTo(DAVID_CARPOOLER);
+        assertThat(trip3.passengers()).containsExactlyInAnyOrder(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER);
       }
     }
 
@@ -112,7 +112,7 @@ class JsonFileTripRepositoryTest {
 
         List<Trip> allTrips = repository.findAll();
 
-        assertThat(allTrips.size(), is(0));
+        assertThat(allTrips).isNotNull().isEmpty();
       }
     }
 
@@ -159,7 +159,7 @@ class JsonFileTripRepositoryTest {
 
         Trip expectedTrip1 = new Trip(DAY1, ALICE_CARPOOLER, Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
         Trip expectedTrip2 = new Trip(DAY2, BOB_CARPOOLER, Set.of(ALICE_CARPOOLER, CHARLIE_CARPOOLER));
-        assertThat(allTrips, is(equalTo(List.of(expectedTrip1, expectedTrip2))));
+        assertThat(allTrips).isEqualTo(List.of(expectedTrip1, expectedTrip2));
       }
 
     }

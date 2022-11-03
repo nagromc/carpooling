@@ -1,19 +1,20 @@
 package org.carpooling.database.json.adapter;
 
+import org.assertj.core.api.Assertions;
 import org.carpooling.database.json.FileDatabaseException;
 import org.carpooling.database.json.dto.CarpoolerDto;
 import org.carpooling.domain.Carpooler;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CarpoolerDtoAdapterTest {
 
   @Test
   void givenNull_shouldThrowException() {
-    FileDatabaseException exception = assertThrows(FileDatabaseException.class, () -> new CarpoolerDtoAdapter(null));
-    assertEquals("DTO cannot be null", exception.getMessage());
+    Assertions.assertThatExceptionOfType(FileDatabaseException.class)
+      .isThrownBy(() -> new CarpoolerDtoAdapter(null))
+      .withMessage("DTO cannot be null");
   }
 
   @Test
@@ -23,8 +24,8 @@ public class CarpoolerDtoAdapterTest {
 
     CarpoolerDto result = adapter.convert();
 
-    assertEquals("alice", result.id);
-    assertEquals("Alice", result.displayName);
+    assertThat(result.id).isEqualTo("alice");
+    assertThat(result.displayName).isEqualTo("Alice");
   }
 
 }

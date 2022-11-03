@@ -8,16 +8,16 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class TripAdapterTest {
 
   @Test
   void givenNull_shouldThrowException() {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new TripAdapter(null));
-    assertThat(exception.getMessage(), is("TripDto cannot be null"));
+    assertThatExceptionOfType(IllegalArgumentException.class)
+      .isThrownBy(() -> new TripAdapter(null))
+      .withMessage("TripDto cannot be null");
   }
 
   @Test
@@ -26,9 +26,9 @@ class TripAdapterTest {
 
     Trip result = new TripAdapter(tripDto).convert();
 
-    assertThat(result.date(), is(LocalDate.parse("2015-10-21")));
-    assertThat(result.driver(), is(new Carpooler("alice")));
-    assertThat(result.passengers(), is(Set.of(new Carpooler("bob"), new Carpooler("charlie"))));
+    assertThat(result.date()).isEqualTo(LocalDate.parse("2015-10-21"));
+    assertThat(result.driver()).isEqualTo(new Carpooler("alice"));
+    assertThat(result.passengers()).isEqualTo(Set.of(new Carpooler("bob"), new Carpooler("charlie")));
   }
 
 }

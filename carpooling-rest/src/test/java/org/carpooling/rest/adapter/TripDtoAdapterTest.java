@@ -8,10 +8,8 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class TripDtoAdapterTest {
 
@@ -21,8 +19,9 @@ public class TripDtoAdapterTest {
 
   @Test
   void givenNull_shouldThrowException() {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new TripDtoAdapter(null));
-    assertThat(exception.getMessage(), is("Trip cannot be null"));
+    assertThatExceptionOfType(IllegalArgumentException.class)
+      .isThrownBy(() -> new TripDtoAdapter(null))
+      .withMessage("Trip cannot be null");
   }
 
   @Test
@@ -32,9 +31,9 @@ public class TripDtoAdapterTest {
 
     TripDto result = adapter.convert();
 
-    assertThat(result.date(), is(LocalDate.parse("2015-10-21")));
-    assertThat(result.driver(), is("alice"));
-    assertThat(result.passengers(), containsInAnyOrder("bob", "charlie"));
+    assertThat(result.date()).isEqualTo(LocalDate.parse("2015-10-21"));
+    assertThat(result.driver()).isEqualTo("alice");
+    assertThat(result.passengers()).containsExactlyInAnyOrder("bob", "charlie");
   }
 
 }
