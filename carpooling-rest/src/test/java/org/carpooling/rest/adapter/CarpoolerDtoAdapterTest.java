@@ -5,15 +5,15 @@ import org.carpooling.rest.dto.CarpoolerDto;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class CarpoolerDtoAdapterTest {
 
   @Test
   void givenNull_ShouldThrowException() {
-    IllegalArgumentException exception =
-      assertThrows(IllegalArgumentException.class, () -> new CarpoolerDtoAdapter(null));
-    assertThat(exception.getMessage()).isEqualTo("Carpooler cannot be null");
+    assertThatExceptionOfType(IllegalArgumentException.class)
+      .isThrownBy(() -> new CarpoolerDtoAdapter(null))
+      .withMessage("Carpooler cannot be null");
   }
 
   @Test

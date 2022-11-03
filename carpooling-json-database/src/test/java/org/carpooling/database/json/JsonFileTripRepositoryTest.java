@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class JsonFileTripRepositoryTest {
 
@@ -43,8 +43,9 @@ class JsonFileTripRepositoryTest {
   void givenNull_shouldThrowException() throws FileDatabaseNotFoundException {
     JsonFileTripRepository repository = new JsonFileTripRepository(file);
 
-    FileDatabaseException exception = assertThrows(FileDatabaseException.class, () -> repository.add(null));
-    assertThat(exception.getMessage()).isEqualTo("Cannot save null trip");
+    assertThatExceptionOfType(FileDatabaseException.class)
+      .isThrownBy(() -> repository.add(null))
+      .withMessage("Cannot save null trip");
   }
 
   @Nested

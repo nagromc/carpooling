@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class TripDtoAdapterTest {
 
@@ -19,8 +19,9 @@ public class TripDtoAdapterTest {
 
   @Test
   void givenNull_shouldThrowException() {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new TripDtoAdapter(null));
-    assertThat(exception.getMessage()).isEqualTo("Trip cannot be null");
+    assertThatExceptionOfType(IllegalArgumentException.class)
+      .isThrownBy(() -> new TripDtoAdapter(null))
+      .withMessage("Trip cannot be null");
   }
 
   @Test

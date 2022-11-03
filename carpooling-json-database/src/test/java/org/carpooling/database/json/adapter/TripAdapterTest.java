@@ -10,15 +10,15 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class TripAdapterTest {
 
   @Test
   void givenNull_shouldThrowException() {
-    FileDatabaseException exception = assertThrows(FileDatabaseException.class, () -> new TripAdapter(null));
-    assertEquals("Domain object cannot be null", exception.getMessage());
+    assertThatExceptionOfType(FileDatabaseException.class)
+      .isThrownBy(() -> new TripAdapter(null))
+      .withMessage("Domain object cannot be null");
   }
 
   @Test
@@ -29,7 +29,7 @@ public class TripAdapterTest {
     Trip result = adapter.convert();
 
     assertThat(result.date()).isEqualTo(LocalDate.parse("2015-10-21"));
-    assertEquals("alice", result.driver().id());
+    assertThat(result.driver().id()).isEqualTo("alice");
     assertThat(result.passengers()).map(Carpooler::id).containsExactlyInAnyOrder("bob", "charlie");
   }
 

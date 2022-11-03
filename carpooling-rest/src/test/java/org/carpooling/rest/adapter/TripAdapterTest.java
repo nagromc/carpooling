@@ -9,14 +9,15 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class TripAdapterTest {
 
   @Test
   void givenNull_shouldThrowException() {
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new TripAdapter(null));
-    assertThat(exception.getMessage()).isEqualTo("TripDto cannot be null");
+    assertThatExceptionOfType(IllegalArgumentException.class)
+      .isThrownBy(() -> new TripAdapter(null))
+      .withMessage("TripDto cannot be null");
   }
 
   @Test

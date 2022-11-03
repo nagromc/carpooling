@@ -1,5 +1,6 @@
 package org.carpooling.database.json;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,7 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 class JsonFileManagerTest {
 
@@ -27,13 +29,14 @@ class JsonFileManagerTest {
 
   @Test
   void givenNotExistingFile_shouldThrowException() {
-    assertThrows(FileDatabaseNotFoundException.class,
-      () -> new JsonFileManager(new File("/not/existing/path")));
+    Assertions.assertThatExceptionOfType(FileDatabaseNotFoundException.class)
+      .isThrownBy(() -> new JsonFileManager(new File("/not/existing/path")));
   }
 
   @Test
   void givenExistingFile_shouldNotThrowException() {
-    assertDoesNotThrow(() -> new JsonFileManager(new File("src/test/resources/dummy-file.json")));
+    assertThatNoException()
+      .isThrownBy(() -> new JsonFileManager(new File("src/test/resources/dummy-file.json")));
   }
 
   @Test
@@ -43,7 +46,7 @@ class JsonFileManagerTest {
     fileManager.write("foobar");
 
     String result = Files.readString(file.toPath());
-    assertEquals("foobar", result);
+    assertThat(result).isEqualTo("foobar");
   }
 
   @Test
@@ -53,7 +56,7 @@ class JsonFileManagerTest {
 
     String result = fileManager.read();
 
-    assertEquals("foobar", result);
+    assertThat(result).isEqualTo("foobar");
   }
 
 }
