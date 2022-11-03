@@ -30,7 +30,7 @@ public class TripAdapterTest {
 
     assertThat(result.date()).isEqualTo(LocalDate.parse("2015-10-21"));
     assertEquals("alice", result.driver().id());
-    assertThat(result.passengers()).map(Carpooler::id).contains("bob", "charlie");
+    assertThat(result.passengers()).map(Carpooler::id).containsExactlyInAnyOrder("bob", "charlie");
   }
 
 }

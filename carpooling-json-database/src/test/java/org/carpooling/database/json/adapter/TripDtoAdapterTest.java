@@ -34,7 +34,7 @@ public class TripDtoAdapterTest {
 
     assertThat(result.date).isEqualTo("2015-10-21");
     assertEquals("alice", result.driverId);
-    assertThat(result.passengersId).contains("bob", "charlie");
+    assertThat(result.passengersId).containsExactlyInAnyOrder("bob", "charlie");
   }
 
 }

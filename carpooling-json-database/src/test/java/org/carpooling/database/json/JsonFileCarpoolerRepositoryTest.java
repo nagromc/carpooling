@@ -97,7 +97,7 @@ class JsonFileCarpoolerRepositoryTest {
         assertThat(carpoolers)
           .hasSize(1)
           .map(Carpooler::id)
-          .contains("alice");
+          .containsExactlyInAnyOrder("alice");
       }
     }
 
@@ -167,7 +167,7 @@ class JsonFileCarpoolerRepositoryTest {
         assertThat(result)
           .hasSize(3)
           .map(Carpooler::id)
-          .contains("alice", "bob", "charlie");
+          .containsExactlyInAnyOrder("alice", "bob", "charlie");
       }
     }
 

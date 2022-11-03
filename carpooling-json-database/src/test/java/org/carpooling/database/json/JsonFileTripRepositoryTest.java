@@ -89,17 +89,17 @@ class JsonFileTripRepositoryTest {
         Trip trip1 = trips.get(0);
         assertThat(trip1.date()).isEqualTo(DAY1);
         assertThat(trip1.driver()).isEqualTo(ALICE_CARPOOLER);
-        assertThat(trip1.passengers()).isEqualTo(Set.of(BOB_CARPOOLER, CHARLIE_CARPOOLER));
+        assertThat(trip1.passengers()).containsExactlyInAnyOrder(BOB_CARPOOLER, CHARLIE_CARPOOLER);
 
         Trip trip2 = trips.get(1);
         assertThat(trip2.date()).isEqualTo(DAY2);
         assertThat(trip2.driver()).isEqualTo(BOB_CARPOOLER);
-        assertThat(trip2.passengers()).isEqualTo(Set.of(DAVID_CARPOOLER));
+        assertThat(trip2.passengers()).containsExactlyInAnyOrder(DAVID_CARPOOLER);
 
         Trip trip3 = trips.get(2);
         assertThat(trip3.date()).isEqualTo(DAY3);
         assertThat(trip3.driver()).isEqualTo(DAVID_CARPOOLER);
-        assertThat(trip3.passengers()).isEqualTo(Set.of(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER));
+        assertThat(trip3.passengers()).containsExactlyInAnyOrder(ALICE_CARPOOLER, BOB_CARPOOLER, CHARLIE_CARPOOLER);
       }
     }
 

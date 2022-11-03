@@ -37,7 +37,7 @@ public class ListCarpoolersUseCaseTest {
     assertThat(result)
       .isNotNull()
       .hasSize(2)
-      .contains(ALICE, BOB);
+      .containsExactlyInAnyOrder(ALICE, BOB);
   }
 
 }

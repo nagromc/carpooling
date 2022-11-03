@@ -32,7 +32,7 @@ public class ListTripsUseCaseTest {
 
     assertThat(result)
       .hasSize(2)
-      .contains(
+      .containsExactlyInAnyOrder(
         new Trip(DAY1, ALICE, Set.of(BOB, CHARLIE)),
         new Trip(DAY2, BOB, Set.of(ALICE))
       );
