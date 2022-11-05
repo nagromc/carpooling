@@ -49,7 +49,7 @@ class JsonFileTripRepositoryTest {
   }
 
   @Nested
-  class WithEmptyDatabaseTest {
+  class WithEmptyDatabase {
 
     @BeforeEach
     void setUp() throws IOException {
@@ -61,7 +61,7 @@ class JsonFileTripRepositoryTest {
     }
 
     @Nested
-    class AddTest {
+    class Add {
       @Test
       void givenTrip_shouldSave() throws FileDatabaseNotFoundException {
         var repository = new JsonFileTripRepository(file);
@@ -105,7 +105,7 @@ class JsonFileTripRepositoryTest {
     }
 
     @Nested
-    class FindAllTest {
+    class FindAll {
       @Test
       void givenDatabaseIsEmpty_shouldReturnEmptyList() throws FileDatabaseNotFoundException {
         var repository = new JsonFileTripRepository(file);
@@ -119,7 +119,7 @@ class JsonFileTripRepositoryTest {
   }
 
   @Nested
-  class WithInitializedDatabaseTest {
+  class WithInitializedDatabase {
 
     @BeforeEach
     void setUp() throws IOException {
@@ -149,7 +149,7 @@ class JsonFileTripRepositoryTest {
     }
 
     @Nested
-    class FindAllTest {
+    class FindAll {
 
       @Test
       void shouldReturnAllTrips() throws FileDatabaseNotFoundException {

@@ -72,7 +72,7 @@ class JsonFileCarpoolerRepositoryTest {
   }
 
   @Nested
-  class WithEmptyDatabaseTest {
+  class WithEmptyDatabase {
 
     @BeforeEach
     void setUp() throws IOException {
@@ -84,7 +84,7 @@ class JsonFileCarpoolerRepositoryTest {
     }
 
     @Nested
-    class AddTest {
+    class Add {
       @Test
       void givenCarpooler_shouldWrite() throws FileDatabaseNotFoundException {
         var repository = new JsonFileCarpoolerRepository(file);
@@ -100,7 +100,7 @@ class JsonFileCarpoolerRepositoryTest {
     }
 
     @Nested
-    class FindAllTest {
+    class FindAll {
       @Test
       void shouldReturnEmptySet() throws FileDatabaseNotFoundException {
         var repository = new JsonFileCarpoolerRepository(file);
@@ -113,7 +113,7 @@ class JsonFileCarpoolerRepositoryTest {
   }
 
   @Nested
-  class WithInitializedDatabaseTest {
+  class WithInitializedDatabase {
 
     @BeforeEach
     void setUp() throws IOException {
@@ -130,7 +130,7 @@ class JsonFileCarpoolerRepositoryTest {
     }
 
     @Nested
-    class AddTest {
+    class Add {
       @Test
       void givenExistingCarpooler_shouldThrowException() throws FileDatabaseNotFoundException {
         var repository = new JsonFileCarpoolerRepository(file);
@@ -142,7 +142,7 @@ class JsonFileCarpoolerRepositoryTest {
     }
 
     @Nested
-    class FindByIdTest {
+    class FindById {
       @Test
       void givenExistingCarpooler_shouldReturnCarpooler() throws FileDatabaseNotFoundException {
         var repository = new JsonFileCarpoolerRepository(file);
@@ -154,7 +154,7 @@ class JsonFileCarpoolerRepositoryTest {
     }
 
     @Nested
-    class FindAllTest {
+    class FindAll {
       @Test
       void shouldReturnAllCarpoolers() throws FileDatabaseNotFoundException {
         var repository = new JsonFileCarpoolerRepository(file);
@@ -170,7 +170,7 @@ class JsonFileCarpoolerRepositoryTest {
   }
 
   @Nested
-  class WithDuplicatedEntriesTest {
+  class WithDuplicatedEntries {
 
     @BeforeEach
     void setUp() throws IOException {
@@ -188,7 +188,7 @@ class JsonFileCarpoolerRepositoryTest {
     }
 
     @Nested
-    class FindByIdTest {
+    class FindById {
       @Test
       void givenTwoOrMoreMatches_shouldThrowException() throws FileDatabaseNotFoundException {
         var repository = new JsonFileCarpoolerRepository(file);
@@ -200,7 +200,7 @@ class JsonFileCarpoolerRepositoryTest {
     }
 
     @Nested
-    class FindAllTest {
+    class FindAll {
       @Test
       void givenTwoOrMoreMatches_shouldThrowException() throws FileDatabaseNotFoundException {
         var repository = new JsonFileCarpoolerRepository(file);
