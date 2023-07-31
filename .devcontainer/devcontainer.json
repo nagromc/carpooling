@@ -1,4 +1,16 @@
 {
   "name": "carpooling",
-  "image": "eclipse-temurin:17"
+  "image": "eclipse-temurin:17",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vmware.vscode-boot-dev-pack"
+      ]
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers-contrib/features/maven-sdkman:2": {}
+  }
 }
