@@ -25,13 +25,13 @@ public class CountCreditsUseCase {
   }
 
   private void updateCreditsForTrip(Trip trip) {
-    var driver = trip.driver();
+    var drivers = trip.drivers();
     var passengers = trip.passengers();
 
     if (passengers.isEmpty())
       return;
 
-    updateDriverCredits(trip, driver);
+    drivers.forEach(driver -> updateDriverCredits(trip, driver));
     passengers.forEach(passenger -> updatePassengerCredits(trip, passenger));
   }
 
@@ -57,11 +57,11 @@ public class CountCreditsUseCase {
 
   private float calculateCarpoolerCredits(Trip trip, Carpooler carpooler) {
     var currentCarpoolerCredits = credits.getOrDefault(carpooler, 0f);
-    return calculateCarpoolerCredits(currentCarpoolerCredits, trip.numberOfCarpoolers());
+    return calculateCarpoolerCredits(currentCarpoolerCredits, trip);
   }
 
-  private float calculateCarpoolerCredits(Float currentCarpoolerCredits, int numberOfCarpoolers) {
-    return currentCarpoolerCredits - 1 / (float) numberOfCarpoolers;
+  private float calculateCarpoolerCredits(Float currentCarpoolerCredits, Trip trip) {
+    return currentCarpoolerCredits - trip.numberOfDrivers() / (float) trip.numberOfCarpoolers();
   }
 
   private void validateCreditsSanityCheck() {

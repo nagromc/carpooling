@@ -88,3 +88,32 @@ Feature: Carpooling
       | alice     | -1     |
       | bob       | 0.5    |
       | charlie   | 0.5    |
+
+  Scenario: Two drivers driving alone do not owe a trip
+    Given the following trips:
+      | date       | driver | nbOfTrips | passenger |
+      | 2015-10-21 | alice  | 1         | bob       |
+    When "alice" and "bob" drive on "2015-10-22" alone
+    And the credits are counted
+    Then the credits should be:
+      | carpooler | credit |
+      | alice     | 0.5    |
+      | bob       | -0.5   |
+
+  Scenario: Two drivers share the earnings
+    Given the following trips:
+      | date       | driver | nbOfTrips | passenger |
+      | 2015-10-21 | alice  | 1         | bob       |
+      | 2015-10-22 | dave   | 2         | charlie   |
+    When "alice" and "bob" drive on "2015-10-23" with:
+      | charlie |
+      | dave    |
+      | erin    |
+    And the credits are counted
+    Then the credits should be:
+      | carpooler | credit |
+      | alice     | 1.1    |
+      | bob       | 0.1    |
+      | charlie   | -1.4   |
+      | dave      | 0.6    |
+      | erin      | -0.4   |

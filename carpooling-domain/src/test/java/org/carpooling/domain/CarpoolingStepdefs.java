@@ -34,7 +34,7 @@ public class CarpoolingStepdefs implements En {
       List<InitialTrip> initialTrips = initialTripsDataTable.asList(InitialTrip.class);
       initialTrips.forEach(
         initialTrip -> IntStream.range(0, initialTrip.nbOfTrips).forEach(
-          i -> tripRepository.add(new Trip(initialTrip.date, initialTrip.driver, Set.of(initialTrip.passenger)))
+          i -> tripRepository.add(new Trip(initialTrip.date, Set.of(initialTrip.driver), Set.of(initialTrip.passenger)))
         )
       );
     });
@@ -47,7 +47,7 @@ public class CarpoolingStepdefs implements En {
       var driver = carpoolerRepository.findById(driverId);
       var date = LocalDate.parse(dateString);
 
-      carPoolUseCase.execute(date, driver, Collections.emptySet());
+      carPoolUseCase.execute(date, Set.of(driver), Collections.emptySet());
     });
 
     When("{string} drives on {string} with:", (String driverId, String dateString, DataTable passengersIdsDataTable) -> {
@@ -57,7 +57,29 @@ public class CarpoolingStepdefs implements En {
         .map(carpoolerRepository::findById)
         .collect(Collectors.toSet());
 
-      carPoolUseCase.execute(date, driver, passengers);
+      carPoolUseCase.execute(date, Set.of(driver), passengers);
+    });
+
+    When("{string} and {string} drive on {string} alone", (String driverId1, String driverId2, String dateString) -> {
+      var driver1 = carpoolerRepository.findById(driverId1);
+      var driver2 = carpoolerRepository.findById(driverId2);
+      var date = LocalDate.parse(dateString);
+      var drivers = Set.of(driver1, driver2);
+
+      carPoolUseCase.execute(date, drivers, Collections.emptySet());
+    });
+
+    When("{string} and {string} drive on {string} with:",
+      (String driverId1, String driverId2, String dateString, DataTable passengersIdsDataTable) -> {
+        var driver1 = carpoolerRepository.findById(driverId1);
+        var driver2 = carpoolerRepository.findById(driverId2);
+        var date = LocalDate.parse(dateString);
+        var drivers = Set.of(driver1, driver2);
+        var passengers = passengersIdsDataTable.asList().stream()
+          .map(carpoolerRepository::findById)
+          .collect(Collectors.toSet());
+
+        carPoolUseCase.execute(date, drivers, passengers);
     });
 
     Then("the credits should be:", (DataTable expectedCreditsDataTable) -> {

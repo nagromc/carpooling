@@ -11,11 +11,11 @@ public class CarPoolUseCase {
     this.tripRepository = tripRepository;
   }
 
-  public void execute(LocalDate date, Carpooler driver, Set<Carpooler> passengers) {
+  public void execute(LocalDate date, Set<Carpooler> drivers, Set<Carpooler> passengers) {
     if (passengers == null || passengers.isEmpty())
       return;
 
-    tripRepository.add(new Trip(date, driver, passengers));
+    tripRepository.add(new Trip(date, drivers, passengers));
   }
 
 }

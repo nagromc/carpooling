@@ -20,8 +20,8 @@ public class ListTripsUseCaseTest {
   @BeforeEach
   void setUp() {
     var tripRepository = new InMemoryTripRepository();
-    tripRepository.add(new Trip(DAY1, ALICE, Set.of(BOB, CHARLIE)));
-    tripRepository.add(new Trip(DAY2, BOB, Set.of(ALICE)));
+    tripRepository.add(new Trip(DAY1, Set.of(ALICE), Set.of(BOB, CHARLIE)));
+    tripRepository.add(new Trip(DAY2, Set.of(BOB), Set.of(ALICE)));
     listTripsUseCase = new ListTripsUseCase(tripRepository);
   }
 
@@ -32,8 +32,8 @@ public class ListTripsUseCaseTest {
     assertThat(result)
       .hasSize(2)
       .containsExactlyInAnyOrder(
-        new Trip(DAY1, ALICE, Set.of(BOB, CHARLIE)),
-        new Trip(DAY2, BOB, Set.of(ALICE))
+        new Trip(DAY1, Set.of(ALICE), Set.of(BOB, CHARLIE)),
+        new Trip(DAY2, Set.of(BOB), Set.of(ALICE))
       );
   }
 
