@@ -21,7 +21,9 @@ public class TripDtoAdapter {
   }
 
   public TripDto convert() {
-    var driverId = new CarpoolerDtoAdapter(trip.driver()).convert().id;
+    var driversId = trip.drivers().stream()
+      .map(carpooler -> new CarpoolerDtoAdapter(carpooler).convert().id)
+      .collect(Collectors.toSet());
 
     var passengersId = trip.passengers().stream()
       .map(carpooler -> new CarpoolerDtoAdapter(carpooler).convert().id)
@@ -29,7 +31,7 @@ public class TripDtoAdapter {
 
     return new TripDto(
       trip.date().toString(),
-      driverId,
+      driversId,
       passengersId
     );
   }

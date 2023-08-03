@@ -24,7 +24,7 @@ public class TripDtoAdapterTest {
   void givenTrip_shouldConvert() {
     var domainTrip = new Trip(
       LocalDate.parse("2015-10-21"),
-      new Carpooler("alice"),
+      Set.of(new Carpooler("alice"), new Carpooler("david")),
       Set.of(new Carpooler("bob"), new Carpooler("charlie"))
     );
     var adapter = new TripDtoAdapter(domainTrip);
@@ -32,7 +32,7 @@ public class TripDtoAdapterTest {
     var result = adapter.convert();
 
     assertThat(result.date).isEqualTo("2015-10-21");
-    assertThat(result.driverId).isEqualTo("alice");
+    assertThat(result.driversId).containsExactlyInAnyOrder("alice", "david");
     assertThat(result.passengersId).containsExactlyInAnyOrder("bob", "charlie");
   }
 

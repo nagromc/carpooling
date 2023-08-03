@@ -23,19 +23,17 @@ public class TripAdapter {
   }
 
   public Trip convert() {
-    var driverDto = new CarpoolerDto(tripDto.driverId);
-
     var date = LocalDate.parse(tripDto.date);
-    var driver = new CarpoolerAdapter(driverDto).convert();
 
-    var passengers = tripDto.passengersId.stream()
-      .map(id -> {
-        var passengerDto = new CarpoolerDto(id);
-        return new CarpoolerAdapter(passengerDto).convert();
-      })
+    var drivers = tripDto.driversId.stream()
+      .map(id -> new CarpoolerAdapter(new CarpoolerDto(id)).convert())
       .collect(Collectors.toSet());
 
-    return new Trip(date, driver, passengers);
+    var passengers = tripDto.passengersId.stream()
+      .map(id -> new CarpoolerAdapter(new CarpoolerDto(id)).convert())
+      .collect(Collectors.toSet());
+
+    return new Trip(date, drivers, passengers);
   }
 
 }

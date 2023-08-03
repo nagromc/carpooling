@@ -22,13 +22,13 @@ public class TripAdapterTest {
 
   @Test
   void givenTripDto_shouldReturnTrip() {
-    var tripDto = new TripDto("2015-10-21", "alice", Set.of("bob", "charlie"));
+    var tripDto = new TripDto("2015-10-21", Set.of("alice", "david"), Set.of("bob", "charlie"));
     var adapter = new TripAdapter(tripDto);
 
     var result = adapter.convert();
 
     assertThat(result.date()).isEqualTo(LocalDate.parse("2015-10-21"));
-    assertThat(result.driver().id()).isEqualTo("alice");
+    assertThat(result.drivers()).map(Carpooler::id).containsExactlyInAnyOrder("alice", "david");
     assertThat(result.passengers()).map(Carpooler::id).containsExactlyInAnyOrder("bob", "charlie");
   }
 
