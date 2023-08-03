@@ -21,11 +21,14 @@ public class TripDtoAdapter {
   }
 
   public TripDto convert() {
+    var driversId = trip.drivers().stream()
+      .map(Carpooler::id)
+      .collect(Collectors.toSet());
     var passengersId = trip.passengers().stream()
       .map(Carpooler::id)
       .collect(Collectors.toSet());
 
-    return new TripDto(trip.date(), trip.driver().id(), passengersId);
+    return new TripDto(trip.date(), driversId, passengersId);
   }
 
 }

@@ -42,29 +42,31 @@ public class TripsControllerTest {
   public static final Carpooler ALICE = new Carpooler("alice");
   public static final Carpooler BOB = new Carpooler("bob");
   public static final Carpooler CHARLIE = new Carpooler("charlie");
+  public static final Carpooler DAVID = new Carpooler("david");
 
   @Test
   void shouldReturnAllTrips() throws Exception {
     var initialTrips = List.of(
-      new Trip(DAY1, ALICE, Set.of(BOB, CHARLIE)),
-      new Trip(DAY2, BOB, Set.of(ALICE))
+      new Trip(DAY1, Set.of(ALICE, DAVID), Set.of(BOB, CHARLIE)),
+      new Trip(DAY2, Set.of(BOB), Set.of(ALICE))
     );
     when(listTripsUseCase.execute()).thenReturn(initialTrips);
 
     mockMvc.perform(get("/trips"))
       .andExpect(status().isOk())
       .andExpect(content().json(
+        // language=JSON
         """
         [
           {
             "date": "2015-10-21",
-            "driver":"alice",
-            "passengers":["bob", "charlie"]
+            "drivers": ["alice", "david"],
+            "passengers": ["bob", "charlie"]
           },
           {
             "date": "2015-10-22",
-            "driver":"bob",
-            "passengers":["alice"]
+            "drivers": ["bob"],
+            "passengers": ["alice"]
           }
         ]"""
       ));
@@ -75,10 +77,12 @@ public class TripsControllerTest {
     mockMvc.perform(
         post("/trips")
           .contentType(MediaType.APPLICATION_JSON)
-          .content("""
+          .content(
+            // language=JSON
+            """
             {
               "date": "2015-10-21",
-              "driver": "charlie",
+              "drivers": ["charlie", "david"],
               "passengers": ["bob"]
             }
             """)
@@ -87,7 +91,7 @@ public class TripsControllerTest {
 
     verify(carPoolUseCase).execute(
       LocalDate.parse("2015-10-21"),
-      CHARLIE,
+      Set.of(CHARLIE, DAVID),
       Set.of(BOB)
     );
   }

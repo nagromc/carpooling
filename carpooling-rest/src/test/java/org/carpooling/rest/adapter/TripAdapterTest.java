@@ -21,12 +21,12 @@ class TripAdapterTest {
 
   @Test
   void shouldReturnTrip() {
-    var tripDto = new TripDto(LocalDate.parse("2015-10-21"), "alice", Set.of("bob", "charlie"));
+    var tripDto = new TripDto(LocalDate.parse("2015-10-21"), Set.of("alice", "david"), Set.of("bob", "charlie"));
 
     var result = new TripAdapter(tripDto).convert();
 
     assertThat(result.date()).isEqualTo(LocalDate.parse("2015-10-21"));
-    assertThat(result.driver()).isEqualTo(new Carpooler("alice"));
+    assertThat(result.drivers()).isEqualTo(Set.of(new Carpooler("alice"), new Carpooler("david")));
     assertThat(result.passengers()).isEqualTo(Set.of(new Carpooler("bob"), new Carpooler("charlie")));
   }
 

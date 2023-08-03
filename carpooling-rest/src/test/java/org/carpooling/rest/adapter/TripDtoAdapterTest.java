@@ -15,6 +15,7 @@ public class TripDtoAdapterTest {
   public static final Carpooler ALICE = new Carpooler("alice");
   public static final Carpooler BOB = new Carpooler("bob");
   public static final Carpooler CHARLIE = new Carpooler("charlie");
+  public static final Carpooler DAVID = new Carpooler("david");
 
   @Test
   void givenNull_shouldThrowException() {
@@ -25,13 +26,13 @@ public class TripDtoAdapterTest {
 
   @Test
   void shouldReturnDto() {
-    var trip = new Trip(LocalDate.parse("2015-10-21"), ALICE, Set.of(BOB, CHARLIE));
+  var trip = new Trip(LocalDate.parse("2015-10-21"), Set.of(ALICE, DAVID), Set.of(BOB, CHARLIE));
     var adapter = new TripDtoAdapter(trip);
 
     var result = adapter.convert();
 
     assertThat(result.date()).isEqualTo(LocalDate.parse("2015-10-21"));
-    assertThat(result.driver()).isEqualTo("alice");
+    assertThat(result.drivers()).containsExactlyInAnyOrder("alice", "david");
     assertThat(result.passengers()).containsExactlyInAnyOrder("bob", "charlie");
   }
 

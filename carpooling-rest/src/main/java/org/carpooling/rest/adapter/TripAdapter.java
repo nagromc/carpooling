@@ -22,12 +22,14 @@ public class TripAdapter {
 
   public Trip convert() {
     var date = tripDto.date();
-    var driver = new Carpooler(tripDto.driver());
+    var drivers = tripDto.drivers().stream()
+      .map(Carpooler::new)
+      .collect(Collectors.toSet());
     var passengers = tripDto.passengers().stream()
       .map(Carpooler::new)
       .collect(Collectors.toSet());
 
-    return new Trip(date, driver, passengers);
+    return new Trip(date, drivers, passengers);
   }
 
 }

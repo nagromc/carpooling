@@ -35,7 +35,7 @@ public class TripsController {
   public void add(@RequestBody TripDto tripDto) {
     var trip = new TripAdapter(tripDto).convert();
 
-    carPoolUseCase.execute(trip.date(), trip.driver(), trip.passengers());
+    carPoolUseCase.execute(trip.date(), trip.drivers(), trip.passengers());
   }
 
 }
