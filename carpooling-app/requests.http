@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
   "date": "2015-10-21",
-  "driver": "foo",
+  "drivers": ["foo"],
   "passengers": [
     "bar"
   ]
