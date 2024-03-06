@@ -1,0 +1,9 @@
+services:
+  app:
+    image: carpooling-app:1.0-SNAPSHOT
+    volumes:
+      - ./workdir:/workdir
+    environment:
+      SPRING_CONFIG_LOCATION: /workdir/config/
+    ports:
+      - 8080:8080

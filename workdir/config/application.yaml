@@ -1,0 +1,3 @@
+carpooling-app:
+  database:
+    base-path: /workdir/db
