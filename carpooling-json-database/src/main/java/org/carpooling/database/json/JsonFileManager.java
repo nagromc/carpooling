@@ -15,7 +15,7 @@ public class JsonFileManager {
 
   void validateParameters(File file) throws FileDatabaseNotFoundException {
     if (!file.exists())
-      throw new FileDatabaseNotFoundException(String.format("File [%s] not found", file.getPath()));
+      throw new FileDatabaseNotFoundException(String.format("File [%s] not found", file.getAbsolutePath()));
   }
 
   String read() {
