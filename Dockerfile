@@ -22,6 +22,7 @@ COPY . .
 RUN mvn \
     --batch-mode \
     --errors \
+    --activate-profiles disable-toolchains \
     --settings /usr/share/maven/ref/settings-docker.xml \
     clean package
 
