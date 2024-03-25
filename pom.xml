@@ -11,6 +11,7 @@
   <modules>
     <module>carpooling-domain</module>
     <module>carpooling-json-database</module>
+    <module>carpooling-sql-database</module>
     <module>carpooling-rest</module>
     <module>carpooling-app</module>
   </modules>
