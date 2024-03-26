@@ -25,6 +25,10 @@
       <groupId>org.carpooling</groupId>
       <artifactId>carpooling-json-database</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.carpooling</groupId>
+      <artifactId>carpooling-sql-database</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -33,6 +37,14 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-configuration-processor</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.xerial</groupId>
+      <artifactId>sqlite-jdbc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.orm</groupId>
+      <artifactId>hibernate-community-dialects</artifactId>
     </dependency>
   </dependencies>
 

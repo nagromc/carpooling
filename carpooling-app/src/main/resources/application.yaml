@@ -1,3 +1,8 @@
 carpooling-app:
   database:
     base-path: ./db
+spring:
+  datasource:
+    url: jdbc:sqlite:./carpooling.sqlite
+  jpa:
+    generate-ddl: true

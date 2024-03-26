@@ -1,8 +1,9 @@
 package org.carpooling.config;
 
 import org.carpooling.database.json.FileDatabaseNotFoundException;
-import org.carpooling.database.json.JsonFileCarpoolerRepository;
 import org.carpooling.database.json.JsonFileTripRepository;
+import org.carpooling.database.sql.CarpoolerCrudRepository;
+import org.carpooling.database.sql.SqlCarpoolerRepository;
 import org.carpooling.domain.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,8 @@ public class CarpoolingAppConfiguration {
   }
 
   @Bean
-  public CarpoolerRepository carpoolerRepository() throws FileDatabaseNotFoundException {
-    return new JsonFileCarpoolerRepository(new File(databaseConfig.getBasePath() + "/carpooler.json"));
+  public CarpoolerRepository carpoolerRepository(CarpoolerCrudRepository crudRepository) {
+    return new SqlCarpoolerRepository(crudRepository);
   }
 
   @Bean

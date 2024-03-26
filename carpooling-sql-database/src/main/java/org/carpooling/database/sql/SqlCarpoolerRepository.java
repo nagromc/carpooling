@@ -3,16 +3,15 @@ package org.carpooling.database.sql;
 import org.carpooling.database.sql.dao.CarpoolerDao;
 import org.carpooling.domain.Carpooler;
 import org.carpooling.domain.CarpoolerRepository;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class SqlCarpoolerRepository implements CarpoolerRepository {
-  private final CrudRepository<CarpoolerDao, String> crudRepository;
+  private final CarpoolerCrudRepository crudRepository;
 
-  public SqlCarpoolerRepository(CrudRepository<CarpoolerDao, String> crudRepository) {
+  public SqlCarpoolerRepository(CarpoolerCrudRepository crudRepository) {
     this.crudRepository = crudRepository;
   }
 

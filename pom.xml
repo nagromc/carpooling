@@ -45,6 +45,11 @@
       </dependency>
       <dependency>
         <groupId>org.carpooling</groupId>
+        <artifactId>carpooling-sql-database</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.carpooling</groupId>
         <artifactId>carpooling-rest</artifactId>
         <version>${project.version}</version>
       </dependency>
