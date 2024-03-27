@@ -29,7 +29,7 @@ public class MockCarpoolerCrudRepository implements CarpoolerCrudRepository {
   }
 
   @Override
-  public <S extends CarpoolerDao> Iterable<S> saveAll(Iterable<S> entities) {
+  public <S extends CarpoolerDao> List<S> saveAll(Iterable<S> entities) {
     throw new UnsupportedOperationException("Not supported yet.");
   }
 
@@ -55,7 +55,7 @@ public class MockCarpoolerCrudRepository implements CarpoolerCrudRepository {
   }
 
   @Override
-  public Iterable<CarpoolerDao> findAll() {
+  public List<CarpoolerDao> findAll() {
     findAllHasBeenCalled = true;
     return List.of(new CarpoolerDao("foo", "bar"));
   }
@@ -65,7 +65,7 @@ public class MockCarpoolerCrudRepository implements CarpoolerCrudRepository {
   }
 
   @Override
-  public Iterable<CarpoolerDao> findAllById(Iterable<String> strings) {
+  public List<CarpoolerDao> findAllById(Iterable<String> strings) {
     throw new UnsupportedOperationException("Not supported yet.");
   }
 

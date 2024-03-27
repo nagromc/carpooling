@@ -6,7 +6,6 @@ import org.carpooling.domain.CarpoolerRepository;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 public class SqlCarpoolerRepository implements CarpoolerRepository {
   private final CarpoolerCrudRepository crudRepository;
@@ -34,7 +33,7 @@ public class SqlCarpoolerRepository implements CarpoolerRepository {
 
   @Override
   public Set<Carpooler> findAll() {
-    return StreamSupport.stream(crudRepository.findAll().spliterator(), true)
+    return crudRepository.findAll().stream()
       .map(this::convertDaoToCarpooler)
       .collect(Collectors.toSet());
   }
