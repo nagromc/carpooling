@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SuppressWarnings("NullableProblems")
 public class MockCarpoolerCrudRepository implements CarpoolerCrudRepository {
   private CarpoolerDao expectedSavedCarpooler;
   private CarpoolerDao actualSavedCarpooler;
