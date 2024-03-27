@@ -1,5 +1,7 @@
 package org.carpooling.domain;
 
+import java.util.StringJoiner;
+
 public record Carpooler(String id, String displayName) {
 
   public Carpooler(String id) {
@@ -8,7 +10,10 @@ public record Carpooler(String id, String displayName) {
 
   @Override
   public String toString() {
-    return id;
+    return new StringJoiner(", ", Carpooler.class.getSimpleName() + "[", "]")
+      .add("id='" + id + "'")
+      .add("displayName='" + displayName + "'")
+      .toString();
   }
 
   @Override
@@ -16,14 +21,14 @@ public record Carpooler(String id, String displayName) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    var carpooler = (Carpooler) o;
-
-    return id.equals(carpooler.id);
+    Carpooler carpooler = (Carpooler) o;
+    return id.equals(carpooler.id) && displayName.equals(carpooler.displayName);
   }
 
   @Override
   public int hashCode() {
-    return id.hashCode();
+    int result = id.hashCode();
+    result = 31 * result + displayName.hashCode();
+    return result;
   }
-
 }
